@@ -45,7 +45,7 @@ export function HeroSignalBoot() {
         showControls={false}
         colorTheme="matt"
         disableWave={false}
-        flowSpeed={0.50}
+        flowSpeed={0.15}
         amp={0.50}
         pointSize={0.2}
         lineOpacity={0.10}

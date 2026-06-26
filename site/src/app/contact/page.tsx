@@ -85,7 +85,6 @@ interface ContactFormData {
   inquiryType?: string;
   message?: string;
   fullName?: string;
-  phone?: string;
   jobTitle?: string;
   projectType?: string;
   budget?: string;
@@ -128,7 +127,6 @@ function TelemetryConsole({
         email: string | null;
         company: string | null;
         type?: string;
-        phone?: string | null;
         role?: string | null;
       };
       message_preview?: string | null;
@@ -161,7 +159,6 @@ function TelemetryConsole({
       payload.client = {
         name: data.fullName || null,
         email: data.email || null,
-        phone: data.phone || null,
         company: data.company || null,
         role: data.jobTitle || null,
       };
@@ -270,7 +267,6 @@ export default function ContactPage() {
   const [requestData, setRequestData] = useState({
     fullName: "",
     email: "",
-    phone: "",
     company: "",
     jobTitle: "",
     projectType: "",
@@ -356,22 +352,59 @@ export default function ContactPage() {
     addLog(`Purged file buffer: "${name}"`);
   };
 
-  // Submit flow simulation
+  // Submit form — sends data via mailto and shows success animation
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     addLog("Form submission initialized. Staging payload...");
     setSubmittingState("parsing");
 
+    // Build the mailto body from form data
+    const targetEmail = "connect@teamify.in";
+    let subject = "";
+    let body = "";
+
+    if (activeTab === "contact") {
+      subject = `Inquiry: ${inquiryData.inquiryType} — from ${inquiryData.name || "Unknown"}`;
+      body = [
+        `Name: ${inquiryData.name}`,
+        `Email: ${inquiryData.email}`,
+        `Company: ${inquiryData.company || "N/A"}`,
+        `Inquiry Type: ${inquiryData.inquiryType}`,
+        ``,
+        `Message:`,
+        inquiryData.message,
+      ].join("\n");
+    } else {
+      subject = `Project Request: ${requestData.projectType || "General"} — from ${requestData.fullName || "Unknown"}`;
+      body = [
+        `Name: ${requestData.fullName}`,
+        `Email: ${requestData.email}`,
+        `Company: ${requestData.company || "N/A"}`,
+        `Role: ${requestData.jobTitle || "N/A"}`,
+        `Project Type: ${requestData.projectType || "N/A"}`,
+        `Budget: ${requestData.budget || "N/A"}`,
+        `Timeline: ${requestData.timeline || "N/A"}`,
+        `Tech Stack: ${selectedTech.length > 0 ? selectedTech.join(", ") : "N/A"}`,
+        ``,
+        `Requirements:`,
+        requestData.requirements,
+      ].join("\n");
+    }
+
     setTimeout(() => {
-      addLog("Payload parsed. Formulating secure gRPC connection handshake...");
+      addLog("Payload parsed. Formulating secure connection handshake...");
       setSubmittingState("handshake");
 
+      // Open mailto link to actually send the email
+      const mailtoLink = `mailto:${targetEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      window.location.href = mailtoLink;
+
       setTimeout(() => {
-        addLog("gRPC handshake accepted. Transmitting encrypted stream packet...");
+        addLog("Connection accepted. Transmitting encrypted stream packet...");
         setSubmittingState("transmitting");
 
         setTimeout(() => {
-          addLog("Server response 200 OK. Transaction logged successfully!");
+          addLog("Email client opened. Transaction logged successfully!");
           setSubmittingState("success");
         }, 1200);
       }, 1000);
@@ -394,7 +427,6 @@ export default function ContactPage() {
     setRequestData({
       fullName: "",
       email: "",
-      phone: "",
       company: "",
       jobTitle: "",
       projectType: "",
@@ -658,17 +690,7 @@ export default function ContactPage() {
                           placeholder="jane@company.com"
                         />
                       </div>
-                      <div className="form-field">
-                        <label htmlFor="req-phone">Phone / Signal</label>
-                        <input
-                          id="req-phone"
-                          name="phone"
-                          type="tel"
-                          value={requestData.phone}
-                          onChange={handleRequestChange}
-                          placeholder="+1 (555) 123-4567"
-                        />
-                      </div>
+
                       <div className="form-field">
                         <label htmlFor="req-company">Entity / Company</label>
                         <input
@@ -875,10 +897,10 @@ export default function ContactPage() {
                   <div>
                     <div className="text-[9px] uppercase tracking-wider text-[var(--text-muted)] font-mono">Secure Core Email</div>
                     <a
-                      href="mailto:hello@teamify.ai"
+                      href="mailto:connect@teamify.in"
                       className="text-xs font-semibold text-[var(--text-primary)] hover:text-[var(--accent-text)] transition-colors"
                     >
-                      hello@teamify.ai
+                      connect@teamify.in
                     </a>
                   </div>
                 </div>
@@ -888,7 +910,7 @@ export default function ContactPage() {
                     <Clock size={16} />
                   </div>
                   <div>
-                    <div className="text-[9px] uppercase tracking-wider text-[var(--text-muted)] font-mono">Guaranteed Review time</div>
+                    <div className="text-[9px] uppercase tracking-wider text-[var(--text-muted)] font-mono">Guaranteed Review Time</div>
                     <div className="text-xs font-semibold text-[var(--text-primary)]">
                       &lt; 24 Hours (Global Engineers)
                     </div>

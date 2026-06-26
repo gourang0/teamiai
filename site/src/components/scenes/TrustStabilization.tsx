@@ -46,7 +46,7 @@ export function TrustStabilization() {
   };
 
   return (
-    <section className="section bg-[var(--surface-primary)] border-t border-[var(--border-subtle)] overflow-hidden">
+    <section className="section bg-transparent border-t border-[var(--border-subtle)] overflow-hidden">
       <div className="container mx-auto px-6">
         {/* Title */}
         <div className="flex flex-col items-center text-center mb-16 select-none">

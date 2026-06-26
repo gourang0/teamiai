@@ -120,6 +120,9 @@ export function Navigation() {
   const [mobileAccordion, setMobileAccordion] = useState<string | null>(null);
   const closeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  const [hoveredRect, setHoveredRect] = useState<{ left: number; width: number } | null>(null);
+  const navContainerRef = useRef<HTMLDivElement | null>(null);
+
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -163,16 +166,37 @@ export function Navigation() {
     [pathname]
   );
 
+  const handleHoverItem = (e: React.MouseEvent<HTMLElement>) => {
+    const target = e.currentTarget;
+    const textSpan = target.querySelector("span") || target;
+    const rect = textSpan.getBoundingClientRect();
+    const container = navContainerRef.current?.getBoundingClientRect();
+    if (container) {
+      setHoveredRect({
+        left: rect.left - container.left,
+        width: rect.width,
+      });
+    }
+  };
+
+  const handleMouseLeaveNav = () => {
+    setHoveredRect(null);
+  };
+
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled
-            ? "py-3 bg-[var(--bg-primary)]/85 backdrop-blur-md border-b border-[var(--border-subtle)] shadow-sm"
-            : "py-5 bg-transparent"
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 flex justify-center pointer-events-none ${
+          isScrolled ? "pt-3 md:pt-4" : "pt-4 md:pt-6"
         }`}
       >
-        <div className="max-w-[1200px] mx-auto px-6 flex items-center justify-between">
+        <div
+          className={`w-full max-w-[1100px] mx-4 px-6 py-2.5 rounded-full transition-all duration-300 flex items-center justify-between pointer-events-auto ${
+            isScrolled
+              ? "bg-[var(--bg-primary)]/80 backdrop-blur-md border border-[var(--border-subtle)] shadow-lg"
+              : "bg-transparent border border-transparent"
+          }`}
+        >
           {/* Logo */}
           <Link
             href="/"
@@ -186,7 +210,11 @@ export function Navigation() {
           </Link>
 
           {/* Desktop Nav Links */}
-          <nav className="hidden md:flex items-center gap-1">
+          <nav
+            ref={navContainerRef}
+            onMouseLeave={handleMouseLeaveNav}
+            className="hidden md:flex items-center gap-1 relative py-1"
+          >
             {navigation.map((item) => (
               <div
                 key={item.label}
@@ -198,26 +226,28 @@ export function Navigation() {
                   <Magnetic range={40} strength={0.25}>
                     <Link
                       href={item.href}
-                      className={`px-4 py-2 text-sm font-medium transition-colors rounded-md block ${
+                      onMouseEnter={handleHoverItem}
+                      className={`px-4 py-2 text-sm font-medium transition-colors rounded-md block relative ${
                         isItemActive(item)
                           ? "text-[var(--text-primary)]"
                           : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
                       }`}
                     >
-                      {item.label}
+                      <span>{item.label}</span>
                     </Link>
                   </Magnetic>
                 ) : (
                   <Magnetic range={40} strength={0.25}>
                     <button
-                      className={`px-4 py-2 text-sm font-medium transition-colors rounded-md flex items-center gap-1 cursor-pointer ${
+                      onMouseEnter={handleHoverItem}
+                      className={`px-4 py-2 text-sm font-medium transition-colors rounded-md flex items-center gap-1 cursor-pointer relative ${
                         isItemActive(item)
                           ? "text-[var(--text-primary)]"
                           : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
                       }`}
                       aria-expanded={activeDropdown === item.label}
                     >
-                      {item.label}
+                      <span>{item.label}</span>
                       <ChevronDown
                         size={14}
                         className={`transition-transform duration-200 ${
@@ -269,15 +299,28 @@ export function Navigation() {
                 </AnimatePresence>
               </div>
             ))}
+
+            {hoveredRect && (
+              <motion.div
+                className="absolute bottom-0 h-[2px] bg-[var(--accent)] pointer-events-none"
+                initial={false}
+                animate={{
+                  left: hoveredRect.left,
+                  width: hoveredRect.width,
+                  opacity: 1,
+                }}
+                transition={{ type: "spring", stiffness: 350, damping: 25 }}
+              />
+            )}
           </nav>
 
           {/* Actions */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 pointer-events-auto">
             {/* Theme Toggle */}
             <Magnetic range={40} strength={0.3}>
               <button
                 onClick={toggleTheme}
-                className="p-2 border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] rounded-md transition-colors cursor-pointer"
+                className="p-2 border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] rounded-full transition-colors cursor-pointer bg-[var(--bg-primary)]/50"
                 aria-label="Toggle theme"
               >
                 {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
@@ -389,7 +432,17 @@ export function Navigation() {
                 ))}
               </div>
 
-              <div className="mt-auto">
+              <div className="mt-auto flex flex-col gap-4">
+                <div className="flex items-center justify-between px-4 py-2 border border-[var(--border-subtle)] rounded-lg bg-[var(--bg-secondary)] select-none">
+                  <span className="text-xs font-medium text-[var(--text-secondary)]">Theme</span>
+                  <button
+                    onClick={toggleTheme}
+                    className="p-2 border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] rounded-full transition-colors cursor-pointer bg-[var(--bg-primary)]/50 flex items-center justify-center"
+                    aria-label="Toggle theme"
+                  >
+                    {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
+                  </button>
+                </div>
                 <Link
                   href="/contact"
                   onClick={() => setIsMobileOpen(false)}

@@ -94,14 +94,14 @@ export function FallingOrbs() {
         orbs.push({
           x: Math.random() * width,
           y: Math.random() * height,
-          vx: (Math.random() - 0.5) * (vibe === "careers" ? 0.3 : vibe === "tech" ? 0.4 : 0.2),
+          vx: (Math.random() - 0.5) * (vibe === "careers" ? 0.18 : vibe === "tech" ? 0.25 : 0.12),
           vy: vibe === "careers"
-            ? -(Math.random() * 1.2 + 0.4) // Floating upwards
+            ? -(Math.random() * 0.7 + 0.25) // Floating upwards
             : vibe === "about"
-            ? (Math.random() - 0.5) * 0.15 // Very slow random drift
+            ? (Math.random() - 0.5) * 0.08 // Very slow random drift
             : vibe === "contact"
-            ? Math.random() * 0.4 + 0.2 // Drift down slightly faster
-            : Math.random() * 0.3 + 0.15, // Default downward drift
+            ? Math.random() * 0.25 + 0.1 // Drift down slightly
+            : Math.random() * 0.18 + 0.08, // Default slow downward drift
           radius,
           color: getRandomColor(vibe, theme),
           alpha: Math.random() * 0.4 + 0.1,

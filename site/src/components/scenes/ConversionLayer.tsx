@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export function ConversionLayer() {
   return (
-    <section className="section bg-[var(--bg-secondary)] border-t border-[var(--border-subtle)] overflow-hidden">
+    <section className="section bg-transparent border-t border-[var(--border-subtle)] overflow-hidden">
       <div className="container mx-auto px-6 text-center max-w-[850px] flex flex-col items-center gap-8">
         <motion.div
           initial={{ opacity: 0, y: 15 }}
@@ -44,21 +44,19 @@ export function ConversionLayer() {
         >
           <div className="flex flex-col items-center gap-2">
             <Mail size={16} className="text-[var(--accent-text)]" />
-            <a href="mailto:hello@teamify.ai" className="hover:text-[var(--accent-text)] transition-colors">
-              hello@teamify.ai
+            <a href="mailto:connect@teamify.in" className="hover:text-[var(--accent-text)] transition-colors">
+              connect@teamify.in
             </a>
+          </div>
+          <div className="flex flex-col items-center gap-2">
+            <svg className="w-4 h-4 text-[var(--accent-text)]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span>&lt; 24h Review Guarantee</span>
           </div>
           <div className="flex flex-col items-center gap-2">
             <Globe size={16} className="text-[var(--accent-text)]" />
-            <Link href="/" className="hover:text-[var(--accent-text)] transition-colors">
-              www.teamify.ai
-            </Link>
-          </div>
-          <div className="flex flex-col items-center gap-2">
-            <Phone size={16} className="text-[var(--accent-text)]" />
-            <a href="tel:+15550102030" className="hover:text-[var(--accent-text)] transition-colors">
-              +1 (555) 010-2030
-            </a>
+            <span>Global Engineering</span>
           </div>
         </motion.div>
       </div>

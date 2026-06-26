@@ -86,7 +86,7 @@ export function IndustryIntelligence() {
   const IconComponent = currentIndustry.icon;
 
   return (
-    <section className="section bg-[var(--bg-secondary)] border-y border-[var(--border-subtle)]">
+    <section className="section bg-transparent border-y border-[var(--border-subtle)]">
       <div className="container mx-auto px-6">
         {/* Title */}
         <div className="flex flex-col items-center text-center mb-16 select-none">

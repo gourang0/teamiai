@@ -31,19 +31,19 @@ const BentoCard: React.FC<BentoCardProps> = ({ metric, title, desc, className, i
     <div
       ref={cardRef}
       onMouseMove={handleMouseMove}
-      className={`group relative overflow-hidden p-8 rounded-2xl bg-slate-950/40 backdrop-blur-md border border-white/[0.06] transition-all duration-300 hover:border-white/[0.12] flex flex-col justify-between h-[280px] ${className}`}
+      className={`group relative overflow-hidden p-8 rounded-2xl bg-[var(--surface-primary)] backdrop-blur-md border border-[var(--border-subtle)] transition-all duration-300 hover:border-[var(--border-primary)] flex flex-col justify-between h-[280px] ${className}`}
     >
-      {/* Dynamic Cursor Edge Illumination (Cyan/Blue) */}
+      {/* Dynamic Cursor Edge Illumination */}
       <div
         className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-10"
         style={{
-          background: `radial-gradient(280px circle at ${coords.x}px ${coords.y}px, rgba(0, 245, 255, 0.07), transparent 70%)`,
+          background: `radial-gradient(280px circle at ${coords.x}px ${coords.y}px, rgba(31, 169, 113, 0.07), transparent 70%)`,
         }}
       />
       
       {/* Dynamic Border Glow Mask */}
       <div
-        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-2xl border border-cyan-500/20"
+        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-2xl border border-emerald-500/20"
         style={{
           WebkitMaskImage: `radial-gradient(120px circle at ${coords.x}px ${coords.y}px, black, transparent 100%)`,
           maskImage: `radial-gradient(120px circle at ${coords.x}px ${coords.y}px, black, transparent 100%)`,
@@ -51,15 +51,15 @@ const BentoCard: React.FC<BentoCardProps> = ({ metric, title, desc, className, i
       />
 
       {/* Kinetic Border Beam */}
-      <BorderBeam size={160} duration={10} colorFrom="#00f5ff" colorTo="#3b82f6" />
+      <BorderBeam size={160} duration={10} colorFrom="#1FA971" colorTo="#3BD996" />
 
       {/* Card Contents */}
       <div className="flex flex-col gap-4 relative z-20">
         <div className="flex justify-between items-start">
-          <span className="text-[10px] font-mono tracking-widest text-cyan-400 font-bold">
+          <span className="text-[10px] font-mono tracking-widest text-emerald-400 font-bold">
             {metric}
           </span>
-          <div className="p-2.5 bg-white/[0.03] border border-white/[0.05] text-cyan-400 rounded-lg">
+          <div className="p-2.5 bg-[var(--bg-secondary)]/50 border border-[var(--border-subtle)] text-emerald-400 rounded-lg">
             <Icon size={18} />
           </div>
         </div>
@@ -68,7 +68,7 @@ const BentoCard: React.FC<BentoCardProps> = ({ metric, title, desc, className, i
         </h3>
       </div>
 
-      <p className="text-xs sm:text-sm text-gray-400 leading-relaxed max-w-sm relative z-20">
+      <p className="text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed max-w-sm relative z-20">
         {desc}
       </p>
     </div>
@@ -95,7 +95,7 @@ export function InfrastructureReveal() {
   };
 
   return (
-    <section className="section bg-[#070708] border-t border-white/[0.05] overflow-hidden py-24">
+    <section className="section bg-transparent border-t border-[var(--border-subtle)] overflow-hidden py-24">
       <div className="container mx-auto px-6 max-w-[1100px]">
         {/* Section title */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 select-none">
@@ -104,7 +104,7 @@ export function InfrastructureReveal() {
             <h2 className="section-title text-left">Why AI, Why Now</h2>
             <div className="divider text-left" style={{ margin: "12px 0 0" }} />
           </div>
-          <p className="text-xs text-gray-400 max-w-sm leading-relaxed mt-4 md:mt-0">
+          <p className="text-xs text-[var(--text-secondary)] max-w-sm leading-relaxed mt-4 md:mt-0">
             Evaluating the shift from static code automation to multi-model agentic decision frameworks.
           </p>
         </div>
@@ -155,7 +155,7 @@ export function InfrastructureReveal() {
         >
           <Link
             href="/services"
-            className="inline-flex items-center gap-2 text-xs font-semibold text-cyan-400 hover:text-cyan-300 transition-colors group select-none"
+            className="inline-flex items-center gap-2 text-xs font-semibold text-[var(--accent-text)] hover:text-[var(--accent-hover)] transition-colors group select-none"
           >
             <span>Explore our full capabilities matrix</span>
             <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />

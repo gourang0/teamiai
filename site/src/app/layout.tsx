@@ -5,7 +5,8 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { FlowFieldBackground } from "@/components/FlowFieldBackground";
-import { VelocityStretchedCursor } from "@/components/VelocityStretchedCursor";
+import { FallingOrbs } from "@/components/FallingOrbs";
+import { SimpleTechCursor } from "@/components/SimpleTechCursor";
 
 const syne = Syne({
   variable: "--font-syne",
@@ -61,7 +62,8 @@ export default function RootLayout({
       >
         <ThemeProvider>
           <FlowFieldBackground />
-          <VelocityStretchedCursor />
+          <FallingOrbs />
+          <SimpleTechCursor />
           <div className="noise-overlay fixed inset-0 pointer-events-none z-[9999]" />
           <Navigation />
           <main>{children}</main>
