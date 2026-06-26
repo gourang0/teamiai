@@ -4,8 +4,8 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
-import { FallingOrbs } from "@/components/FallingOrbs";
-import { CursorTrail } from "@/components/CursorTrail";
+import { FlowFieldBackground } from "@/components/FlowFieldBackground";
+import { VelocityStretchedCursor } from "@/components/VelocityStretchedCursor";
 
 const syne = Syne({
   variable: "--font-syne",
@@ -60,8 +60,9 @@ export default function RootLayout({
         className={`${syne.variable} ${plusJakartaSans.variable} ${jetbrainsMono.variable} antialiased`}
       >
         <ThemeProvider>
-          <FallingOrbs />
-          <CursorTrail />
+          <FlowFieldBackground />
+          <VelocityStretchedCursor />
+          <div className="noise-overlay fixed inset-0 pointer-events-none z-[9999]" />
           <Navigation />
           <main>{children}</main>
           <Footer />

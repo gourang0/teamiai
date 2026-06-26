@@ -1,4 +1,5 @@
 import { HeroSignalBoot } from "@/components/scenes/HeroSignalBoot";
+import { DeconstructingFacade } from "@/components/scenes/DeconstructingFacade";
 import { InfrastructureReveal } from "@/components/scenes/InfrastructureReveal";
 import { CapabilityMatrix } from "@/components/scenes/CapabilityMatrix";
 import { IndustryIntelligence } from "@/components/scenes/IndustryIntelligence";
@@ -11,6 +12,9 @@ export default function Home() {
     <div className="flex flex-col">
       {/* Slide 1 — Hero */}
       <HeroSignalBoot />
+
+      {/* Signature reveal transition */}
+      <DeconstructingFacade />
 
       {/* Slide 2 — The Opportunity / Why AI, Why Now */}
       <InfrastructureReveal />
