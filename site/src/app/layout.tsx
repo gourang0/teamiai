@@ -4,6 +4,8 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
+import { FallingOrbs } from "@/components/FallingOrbs";
+import { CursorTrail } from "@/components/CursorTrail";
 
 const syne = Syne({
   variable: "--font-syne",
@@ -58,6 +60,8 @@ export default function RootLayout({
         className={`${syne.variable} ${plusJakartaSans.variable} ${jetbrainsMono.variable} antialiased`}
       >
         <ThemeProvider>
+          <FallingOrbs />
+          <CursorTrail />
           <Navigation />
           <main>{children}</main>
           <Footer />
