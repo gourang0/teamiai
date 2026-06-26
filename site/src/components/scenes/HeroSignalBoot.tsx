@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { Magnetic } from "@/components/Magnetic";
+import { HeroWaveBackground } from "@/components/HeroWaveBackground";
 
 const partnerLogos = [
   "Acme Corp",
@@ -38,6 +39,31 @@ export function HeroSignalBoot() {
 
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center pt-28 pb-16 bg-gradient-subtle overflow-hidden">
+      {/* 3D Wave Background with custom design parameters */}
+      <HeroWaveBackground 
+        className="absolute inset-0"
+        showControls={false}
+        colorTheme="matt"
+        disableWave={false}
+        flowSpeed={0.50}
+        amp={0.50}
+        pointSize={0.2}
+        lineOpacity={0.10}
+        camX={10.8}
+        camY={16.8}
+        camZ={40.0}
+        fov={39}
+        targetX={10.0}
+        targetY={6.1}
+        scale={1.70}
+        orbitAmount={0.00}
+        orbitSpeed={0.00}
+        glowIntensity={0.00}
+        glowThreshold={0.09}
+        cursorStrength={0.10}
+        cursorRadius={1.9}
+        cursorRecovery={0.60}
+      />
       <div className="container mx-auto px-6 flex flex-col items-center text-center justify-center relative z-10">
         <motion.div
           variants={containerVariants}
