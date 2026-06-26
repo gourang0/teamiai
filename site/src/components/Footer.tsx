@@ -42,18 +42,20 @@ export function Footer() {
 
         {/* Link Groups */}
         {Object.entries(footerLinks).map(([title, links]) => (
-          <div key={title} className="flex flex-col gap-4">
-            <h4 className="text-xs font-semibold uppercase tracking-wider text-[var(--text-primary)]">
+          <div key={title} className="flex flex-col gap-4 group/col">
+            <h4 className="text-xs font-semibold uppercase tracking-wider text-[var(--text-primary)] relative pb-2 w-fit select-none">
               {title}
+              <span className="absolute bottom-0 left-0 w-full h-[1px] bg-cyan-400 scale-x-0 group-hover/col:scale-x-100 transition-transform duration-300 origin-left" />
             </h4>
             <ul className="flex flex-col gap-3">
               {links.map((link) => (
-                <li key={link.label}>
+                <li key={link.label} className="group/item w-fit">
                   <Link
                     href={link.href}
-                    className="text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
+                    className="text-sm text-[var(--text-secondary)] hover:text-white transition-colors relative"
                   >
                     {link.label}
+                    <span className="absolute -bottom-1 left-0 w-full h-[1px] bg-cyan-400/50 scale-x-0 group-hover/item:scale-x-100 transition-transform duration-300 origin-left" />
                   </Link>
                 </li>
               ))}
