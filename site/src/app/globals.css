@@ -234,6 +234,20 @@
       var(--bg-primary);
   }
 
+  /* ── Subtle Gradient Background with Bottom Fade ── */
+  .bg-gradient-subtle-fade {
+    background:
+      radial-gradient(ellipse 60% 40% at 50% 0%, rgba(31, 169, 113, 0.10), transparent 70%),
+      radial-gradient(ellipse 40% 30% at 80% 60%, rgba(11, 93, 72, 0.06), transparent 60%),
+      linear-gradient(to bottom, var(--bg-primary) 50%, transparent 100%);
+  }
+  html.light .bg-gradient-subtle-fade {
+    background:
+      radial-gradient(ellipse 60% 40% at 50% 0%, rgba(11, 93, 72, 0.05), transparent 70%),
+      linear-gradient(to bottom, var(--bg-primary) 50%, transparent 100%);
+  }
+
+
   /* ── Text Gradients ── */
   .text-gradient {
     background: linear-gradient(135deg, #138A64, #3BD996, #1FA971);
@@ -1246,3 +1260,26 @@ html.light .testimonial-card {
     offsetDistance: 100%;
   }
 }
+
+/* ── Gradient Mask for Blending Pages ── */
+.wave-mask-bottom {
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 55%, rgba(0, 0, 0, 0) 100%);
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 55%, rgba(0, 0, 0, 0) 100%);
+}
+
+/* ── Disable System Cursor on Desktop ── */
+@media (pointer: fine) {
+  html, body, body * {
+    cursor: none !important;
+  }
+}
+
+@keyframes terminal-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}
+
+.cursor-hover-active {
+  animation: terminal-blink 1s ease-in-out infinite;
+}
+

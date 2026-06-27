@@ -2,15 +2,19 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
+import { useTheme } from "./ThemeProvider";
 
 export const SimpleTechCursor: React.FC = () => {
   const caretRef = useRef<HTMLDivElement | null>(null);
+  const { theme } = useTheme();
   
   const currentPos = useRef({ x: 0, y: 0 });
   const targetPos = useRef({ x: 0, y: 0 });
   const previousTargetPos = useRef({ x: 0, y: 0 });
 
   const [isTouchDevice, setIsTouchDevice] = useState(false);
+  const hoveredElement = useRef<HTMLElement | null>(null);
+
 
   useEffect(() => {
     // Check if it's a touch device
@@ -51,14 +55,31 @@ export const SimpleTechCursor: React.FC = () => {
         gsap.to(caret, { opacity: 1, duration: 0.2 });
         hasMoved = true;
       }
-      targetPos.current.x = e.clientX;
-      targetPos.current.y = e.clientY;
+      if (!isHovered) {
+        targetPos.current.x = e.clientX;
+        targetPos.current.y = e.clientY;
+      }
     };
 
     window.addEventListener("mousemove", trackMouse);
 
     // Animation render loop for stretching, tilting and trailing
     const runRenderLoop = () => {
+      if (isHovered && hoveredElement.current) {
+        const rect = hoveredElement.current.getBoundingClientRect();
+        targetPos.current.x = rect.left + rect.width / 2;
+        targetPos.current.y = rect.top + rect.height / 2;
+
+        const targetWidth = rect.width + 16;
+        const targetHeight = rect.height + 8;
+        gsap.to(caret, {
+          width: targetWidth,
+          height: targetHeight,
+          duration: 0.1,
+          overwrite: "auto",
+        });
+      }
+
       // Smooth interpolation for position
       const dx = targetPos.current.x - currentPos.current.x;
       const dy = targetPos.current.y - currentPos.current.y;
@@ -124,29 +145,53 @@ export const SimpleTechCursor: React.FC = () => {
     document.addEventListener("mouseenter", handleMouseEnter);
 
     // Hover interactions for links, buttons, and other interactive elements
-    const handlePointerEnter = () => {
+    const handlePointerEnter = (e: Event) => {
+      const target = e.currentTarget as HTMLElement;
+      if (!target) return;
+
       isHovered = true;
+      hoveredElement.current = target;
       caret.classList.add("cursor-hover-active");
+
+      const rect = target.getBoundingClientRect();
+      const targetWidth = rect.width + 16;
+      const targetHeight = rect.height + 8;
+
+      // Lock target position to the center of the hovered element
+      targetPos.current.x = rect.left + rect.width / 2;
+      targetPos.current.y = rect.top + rect.height / 2;
+      
+      const isDarkTheme = document.documentElement.classList.contains("dark");
       
       gsap.to(caret, {
-        scaleX: 3.2,
-        scaleY: 1.2,
+        width: targetWidth,
+        height: targetHeight,
+        borderRadius: "6px",
         rotate: 0,
-        backgroundColor: "rgba(59, 217, 150, 0.25)",
-        border: "1px solid rgba(59, 217, 150, 0.8)",
-        boxShadow: "0 0 12px rgba(59, 217, 150, 0.4)",
-        duration: 0.2,
+        backgroundColor: "rgba(59, 217, 150, 0.15)",
+        border: "1px solid rgba(59, 217, 150, 0.6)",
+        boxShadow: "0 0 12px rgba(59, 217, 150, 0.3)",
+        duration: 0.25,
+        ease: "power2.out",
         overwrite: "auto",
       });
     };
 
-    const handlePointerLeave = () => {
+    const handlePointerLeave = (e: Event) => {
+      const mouseEvent = e as MouseEvent;
       isHovered = false;
+      hoveredElement.current = null;
       caret.classList.remove("cursor-hover-active");
 
+      targetPos.current.x = mouseEvent.clientX;
+      targetPos.current.y = mouseEvent.clientY;
+
+      const isDarkTheme = document.documentElement.classList.contains("dark");
+
       gsap.to(caret, {
-        scaleX: 1,
-        scaleY: 1,
+        width: 5,
+        height: 18,
+        borderRadius: "1px",
         rotate: 0,
         backgroundColor: "#3BD996",
         border: "1px solid transparent",
@@ -159,8 +204,8 @@ export const SimpleTechCursor: React.FC = () => {
     // Click effect (quick squeeze)
     const handleMouseDown = () => {
       gsap.to(caret, {
-        scaleX: isHovered ? 2.6 : 0.6,
-        scaleY: isHovered ? 0.9 : 0.6,
+        scaleX: isHovered ? 0.95 : 0.6,
+        scaleY: isHovered ? 0.95 : 0.6,
         duration: 0.1,
         overwrite: "auto"
       });
@@ -168,8 +213,8 @@ export const SimpleTechCursor: React.FC = () => {
 
     const handleMouseUp = () => {
       gsap.to(caret, {
-        scaleX: isHovered ? 3.2 : 1,
-        scaleY: isHovered ? 1.2 : 1,
+        scaleX: 1,
+        scaleY: 1,
         duration: 0.15,
         overwrite: "auto"
       });
@@ -200,41 +245,21 @@ export const SimpleTechCursor: React.FC = () => {
       document.removeEventListener("mouseleave", handleMouseLeave);
       document.removeEventListener("mouseenter", handleMouseEnter);
       gsap.ticker.remove(runRenderLoop);
-      domObserver.disconnect();
     };
   }, []);
 
   if (isTouchDevice) return null;
 
   return (
-    <>
-      <style jsx global>{`
-        /* Hide system cursor on non-touch devices */
-        @media (pointer: fine) {
-          body, a, button, [role="button"], .btn, .card {
-            cursor: none !important;
-          }
-        }
-        
-        /* Blinking block cursor animation when hovering interactive elements */
-        @keyframes terminal-blink {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.45; }
-        }
-        
-        .cursor-hover-active {
-          animation: terminal-blink 1s ease-in-out infinite;
-        }
-      `}</style>
-      <div
-        ref={caretRef}
-        className="fixed top-0 left-0 w-[5px] h-[18px] bg-[#3BD996] rounded-[1px] pointer-events-none z-[9999]"
-        style={{ 
-          transformOrigin: "center",
-          boxShadow: "0 0 8px #3BD996"
-        }}
-      />
-    </>
+    <div
+      ref={caretRef}
+      className="fixed top-0 left-0 w-[5px] h-[18px] rounded-[1px] pointer-events-none z-[9999]"
+      style={{ 
+        transformOrigin: "center",
+        backgroundColor: "#3BD996",
+        boxShadow: "0 0 8px #3BD996"
+      }}
+    />
   );
 };
 

@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Cpu, Activity, ShieldCheck, Database, CheckSquare, Sparkles, Workflow, ArrowRight } from "lucide-react";
 import { GlowCard } from "@/components/GlowCard";
+import { useTheme } from "@/components/ThemeProvider";
 
 interface ModelConfig {
   id: string;
@@ -27,6 +28,10 @@ export function AIIntegrationHub() {
   const [hoveredModel, setHoveredModel] = useState<string | null>("groq");
   const [activeWorkflowStep, setActiveWorkflowStep] = useState<number>(0);
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
+  const lineStrokeColor = isDark ? "var(--text-muted)" : "rgba(11, 93, 72, 0.35)";
+  const lineOpacity = isDark ? 0.15 : 0.35;
 
   // Live telemetry updating effect
   useEffect(() => {
@@ -178,23 +183,23 @@ export function AIIntegrationHub() {
                 <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ minHeight: "280px" }}>
                   <defs>
                     <linearGradient id="emerald-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stopColor="#138A64" stopOpacity="0.2" />
-                      <stop offset="50%" stopColor="#3BD996" stopOpacity="0.8" />
-                      <stop offset="100%" stopColor="#1FA971" stopOpacity="0.2" />
+                      <stop offset="0%" stopColor="#138A64" stopOpacity={isDark ? 0.2 : 0.4} />
+                      <stop offset="50%" stopColor="#3BD996" stopOpacity={1.0} />
+                      <stop offset="100%" stopColor="#1FA971" stopOpacity={isDark ? 0.2 : 0.4} />
                     </linearGradient>
                   </defs>
 
                   {/* Bezier connection paths */}
                   {/* Path 1: Ingest (20%, 50%) -> Router (50%, 50%) */}
-                  <path d="M 90 140 Q 160 140, 210 140" fill="none" stroke="var(--text-muted)" strokeOpacity={0.15} strokeWidth="2" />
+                  <path d="M 90 140 Q 160 140, 210 140" fill="none" stroke={lineStrokeColor} strokeOpacity={lineOpacity} strokeWidth="2" />
                   
                   {/* Paths from Router (210, 140) to Models */}
                   {/* Router -> Groq (380, 50) */}
                   <path
                     d="M 270 140 Q 320 140, 360 70"
                     fill="none"
-                    stroke={hoveredModel === "groq" ? "url(#emerald-gradient)" : "var(--text-muted)"}
-                    strokeOpacity={hoveredModel === "groq" ? 1 : 0.15}
+                    stroke={hoveredModel === "groq" ? "url(#emerald-gradient)" : lineStrokeColor}
+                    strokeOpacity={hoveredModel === "groq" ? 1 : lineOpacity}
                     strokeWidth={hoveredModel === "groq" ? 3 : 1.5}
                     className="transition-all duration-300"
                   />
@@ -202,8 +207,8 @@ export function AIIntegrationHub() {
                   <path
                     d="M 270 140 H 360"
                     fill="none"
-                    stroke={hoveredModel === "xai" ? "url(#emerald-gradient)" : "var(--text-muted)"}
-                    strokeOpacity={hoveredModel === "xai" ? 1 : 0.15}
+                    stroke={hoveredModel === "xai" ? "url(#emerald-gradient)" : lineStrokeColor}
+                    strokeOpacity={hoveredModel === "xai" ? 1 : lineOpacity}
                     strokeWidth={hoveredModel === "xai" ? 3 : 1.5}
                     className="transition-all duration-300"
                   />
@@ -211,8 +216,8 @@ export function AIIntegrationHub() {
                   <path
                     d="M 270 140 Q 320 140, 360 210"
                     fill="none"
-                    stroke={hoveredModel === "gpt4" ? "url(#emerald-gradient)" : "var(--text-muted)"}
-                    strokeOpacity={hoveredModel === "gpt4" ? 1 : 0.15}
+                    stroke={hoveredModel === "gpt4" ? "url(#emerald-gradient)" : lineStrokeColor}
+                    strokeOpacity={hoveredModel === "gpt4" ? 1 : lineOpacity}
                     strokeWidth={hoveredModel === "gpt4" ? 3 : 1.5}
                     className="transition-all duration-300"
                   />
@@ -222,8 +227,8 @@ export function AIIntegrationHub() {
                   <path
                     d="M 430 70 Q 460 140, 480 140"
                     fill="none"
-                    stroke={hoveredModel === "groq" ? "url(#emerald-gradient)" : "var(--text-muted)"}
-                    strokeOpacity={hoveredModel === "groq" ? 1 : 0.15}
+                    stroke={hoveredModel === "groq" ? "url(#emerald-gradient)" : lineStrokeColor}
+                    strokeOpacity={hoveredModel === "groq" ? 1 : lineOpacity}
                     strokeWidth={hoveredModel === "groq" ? 3 : 1.5}
                     className="transition-all duration-300"
                   />
@@ -231,8 +236,8 @@ export function AIIntegrationHub() {
                   <path
                     d="M 430 140 H 480"
                     fill="none"
-                    stroke={hoveredModel === "xai" ? "url(#emerald-gradient)" : "var(--text-muted)"}
-                    strokeOpacity={hoveredModel === "xai" ? 1 : 0.15}
+                    stroke={hoveredModel === "xai" ? "url(#emerald-gradient)" : lineStrokeColor}
+                    strokeOpacity={hoveredModel === "xai" ? 1 : lineOpacity}
                     strokeWidth={hoveredModel === "xai" ? 3 : 1.5}
                     className="transition-all duration-300"
                   />
@@ -240,14 +245,14 @@ export function AIIntegrationHub() {
                   <path
                     d="M 430 210 Q 460 140, 480 140"
                     fill="none"
-                    stroke={hoveredModel === "gpt4" ? "url(#emerald-gradient)" : "var(--text-muted)"}
-                    strokeOpacity={hoveredModel === "gpt4" ? 1 : 0.15}
+                    stroke={hoveredModel === "gpt4" ? "url(#emerald-gradient)" : lineStrokeColor}
+                    strokeOpacity={hoveredModel === "gpt4" ? 1 : lineOpacity}
                     strokeWidth={hoveredModel === "gpt4" ? 3 : 1.5}
                     className="transition-all duration-300"
                   />
 
                   {/* Path 4: Sanitizer (540, 140) -> Output (610, 140) */}
-                  <path d="M 540 140 H 600" fill="none" stroke="var(--text-muted)" strokeOpacity={0.15} strokeWidth="2" />
+                  <path d="M 540 140 H 600" fill="none" stroke={lineStrokeColor} strokeOpacity={lineOpacity} strokeWidth="2" />
 
                   {/* Animated flow dash packet overlay */}
                   <motion.path
@@ -274,13 +279,13 @@ export function AIIntegrationHub() {
                 {/* Node Box Widgets */}
                 
                 {/* Node 1: INGEST */}
-                <div className="absolute left-[15px] top-[115px] w-20 h-12 bg-[var(--surface-primary)] border border-[var(--border-subtle)] rounded-lg flex flex-col items-center justify-center p-1.5 shadow-md">
+                <div className="absolute left-[15px] top-[115px] w-20 h-12 bg-[var(--surface-elevated)] border border-[var(--border-primary)] rounded-lg flex flex-col items-center justify-center p-1.5 shadow-md">
                   <Database size={12} className="text-[var(--text-secondary)] mb-0.5" />
                   <span className="text-[8px] font-mono text-[var(--text-secondary)] uppercase font-semibold">INGEST</span>
                 </div>
 
                 {/* Node 2: COGNITIVE ROUTER */}
-                <div className="absolute left-[180px] top-[115px] w-24 h-12 bg-[var(--surface-primary)] border border-[var(--accent)]/20 rounded-lg flex flex-col items-center justify-center p-1.5 shadow-md">
+                <div className="absolute left-[180px] top-[115px] w-24 h-12 bg-[var(--surface-elevated)] border border-[var(--accent)]/45 rounded-lg flex flex-col items-center justify-center p-1.5 shadow-md">
                   <span className="text-[7px] font-mono text-[var(--accent-text)] font-bold tracking-widest uppercase">STAGE_02</span>
                   <span className="text-[8.5px] font-semibold text-[var(--text-primary)] uppercase mt-0.5">ROUTER</span>
                 </div>
@@ -290,8 +295,8 @@ export function AIIntegrationHub() {
                 <div
                   className={`absolute left-[340px] top-[45px] w-24 h-11 border rounded-lg flex flex-col items-center justify-center p-1 shadow-md transition-all duration-300 ${
                     hoveredModel === "groq"
-                      ? "bg-[var(--bg-secondary)] border-[var(--accent)]/40 scale-105"
-                      : "bg-[var(--surface-primary)] border-[var(--border-subtle)] opacity-40"
+                      ? "bg-[var(--bg-secondary)] border-[var(--accent)]/50 scale-105"
+                      : "bg-[var(--surface-elevated)] border-[var(--border-subtle)] opacity-60"
                   }`}
                 >
                   <span className="text-[7.5px] font-mono text-[var(--text-primary)]/80">Groq API</span>
@@ -302,8 +307,8 @@ export function AIIntegrationHub() {
                 <div
                   className={`absolute left-[340px] top-[115px] w-24 h-11 border rounded-lg flex flex-col items-center justify-center p-1 shadow-md transition-all duration-300 ${
                     hoveredModel === "xai"
-                      ? "bg-[var(--bg-secondary)] border-[var(--accent)]/40 scale-105"
-                      : "bg-[var(--surface-primary)] border-[var(--border-subtle)] opacity-40"
+                      ? "bg-[var(--bg-secondary)] border-[var(--accent)]/50 scale-105"
+                      : "bg-[var(--surface-elevated)] border-[var(--border-subtle)] opacity-60"
                   }`}
                 >
                   <span className="text-[7.5px] font-mono text-[var(--text-primary)]/80">xAI Cluster</span>
@@ -314,8 +319,8 @@ export function AIIntegrationHub() {
                 <div
                   className={`absolute left-[340px] top-[185px] w-24 h-11 border rounded-lg flex flex-col items-center justify-center p-1 shadow-md transition-all duration-300 ${
                     hoveredModel === "gpt4"
-                      ? "bg-[var(--bg-secondary)] border-[var(--accent)]/40 scale-105"
-                      : "bg-[var(--surface-primary)] border-[var(--border-subtle)] opacity-40"
+                      ? "bg-[var(--bg-secondary)] border-[var(--accent)]/50 scale-105"
+                      : "bg-[var(--surface-elevated)] border-[var(--border-subtle)] opacity-60"
                   }`}
                 >
                   <span className="text-[7.5px] font-mono text-[var(--text-primary)]/80">Cognitive Core</span>
@@ -323,13 +328,13 @@ export function AIIntegrationHub() {
                 </div>
 
                 {/* Node 6: PII SANITIZER */}
-                <div className="absolute right-[110px] top-[115px] w-24 h-12 bg-[var(--surface-elevated,var(--surface-primary))] border border-[var(--border-subtle)] rounded-lg flex flex-col items-center justify-center p-1.5 shadow-md">
+                <div className="absolute right-[110px] top-[115px] w-24 h-12 bg-[var(--surface-elevated)] border border-[var(--border-primary)] rounded-lg flex flex-col items-center justify-center p-1.5 shadow-md">
                   <ShieldCheck size={12} className="text-emerald-400 mb-0.5" />
                   <span className="text-[8px] font-mono text-[var(--text-secondary)] uppercase font-semibold">SANITIZER</span>
                 </div>
 
                 {/* Node 7: OUTPUT */}
-                <div className="absolute right-[15px] top-[115px] w-20 h-12 bg-[var(--surface-primary)] border border-[var(--border-subtle)] rounded-lg flex flex-col items-center justify-center p-1.5 shadow-md">
+                <div className="absolute right-[15px] top-[115px] w-20 h-12 bg-[var(--surface-elevated)] border border-[var(--border-primary)] rounded-lg flex flex-col items-center justify-center p-1.5 shadow-md">
                   <CheckSquare size={12} className="text-[var(--accent-text)] mb-0.5" />
                   <span className="text-[8px] font-mono text-[var(--text-secondary)] uppercase font-semibold">SYNTHESIS</span>
                 </div>
@@ -345,7 +350,7 @@ export function AIIntegrationHub() {
                       <div
                         key={idx}
                         className={`h-1.5 flex-1 rounded-full transition-all duration-500 ${
-                          idx === activeWorkflowStep ? "bg-[var(--accent)] shadow-[0_0_8px_var(--accent)]" : "bg-white/10"
+                          idx === activeWorkflowStep ? "bg-[var(--accent)] shadow-[0_0_8px_var(--accent)]" : "bg-[var(--bg-secondary)]"
                         }`}
                       />
                     ))}

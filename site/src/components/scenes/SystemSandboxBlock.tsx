@@ -92,7 +92,7 @@ export function SystemSandboxBlock() {
 
   // Scroll terminal logs to bottom
   useEffect(() => {
-    if (terminalEndRef.current) {
+    if (consoleOutput.length > 0 && terminalEndRef.current) {
       terminalEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [consoleOutput]);

@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { Magnetic } from "@/components/Magnetic";
 import { HeroWaveBackground } from "@/components/HeroWaveBackground";
+import { useTheme } from "@/components/ThemeProvider";
 
 const partnerLogos = [
   "Acme Corp",
@@ -17,6 +18,9 @@ const partnerLogos = [
 ];
 
 export function HeroSignalBoot() {
+  const { theme } = useTheme();
+  const waveTheme = theme === "dark" ? "matt" : "lightEmerald";
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -38,12 +42,16 @@ export function HeroSignalBoot() {
   };
 
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center pt-28 pb-16 bg-gradient-subtle overflow-hidden">
+    <section className="relative min-h-screen flex flex-col items-center justify-center pt-28 pb-16 bg-transparent overflow-hidden">
+      {/* Background overlay that fades at the bottom to transition to the grid */}
+      <div className="absolute inset-0 bg-gradient-subtle-fade pointer-events-none" />
+
       {/* 3D Wave Background with custom design parameters */}
       <HeroWaveBackground 
-        className="absolute inset-0"
+        className="absolute inset-0 wave-mask-bottom"
+        transparent={true}
         showControls={false}
-        colorTheme="matt"
+        colorTheme={waveTheme}
         disableWave={false}
         flowSpeed={0.15}
         amp={0.50}

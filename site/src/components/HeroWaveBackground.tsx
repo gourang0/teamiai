@@ -9,7 +9,7 @@ import * as THREE from "three";
 export type HeroWaveBackgroundProps = {
   className?: string;
   showControls?: boolean;
-  colorTheme?: "normal" | "neon" | "metallic" | "matt" | "disabled";
+  colorTheme?: "normal" | "neon" | "metallic" | "matt" | "disabled" | "lightEmerald";
   disableWave?: boolean;
   flowSpeed?: number;
   amp?: number;
@@ -29,6 +29,7 @@ export type HeroWaveBackgroundProps = {
   cursorStrength?: number;
   cursorRadius?: number;
   cursorRecovery?: number;
+  transparent?: boolean;
 };
 
 // ── Color Themes ──
@@ -108,6 +109,21 @@ export const THEMES: Record<string, ColorThemeConfig> = {
     fogCore: "#5f7a7d",
     ambient: "#8aa7a9",
     background: "#0f1213",
+  },
+  lightEmerald: {
+    deep: "#d1d5db",
+    mid: "#9ca3af",
+    bright: "#4b5563",
+    spine: "#1f2937",
+    core: "#000000",
+    lineDark: "#e5e7eb",
+    lineBright: "#4b5563",
+    lineSpine: "#1f2937",
+    lineCore: "#000000",
+    fogEdge: "#f0fdf7",
+    fogCore: "#e6f7ef",
+    ambient: "#374151",
+    background: "#f0fdf7",
   },
   disabled: {
     deep: "#080808",
@@ -457,7 +473,7 @@ function AmbientParticles({ tier, themeConfig }: { tier: string; themeConfig: Co
         <bufferAttribute attach="attributes-aSpeed" args={[sp, 1]} />
       </bufferGeometry>
       <shaderMaterial ref={matRef} vertexShader={AMB_VERT} fragmentShader={AMB_FRAG}
-        uniforms={u} transparent depthWrite={false} blending={THREE.AdditiveBlending} />
+        uniforms={u} transparent depthWrite={false} blending={themeConfig.background === "#f0fdf7" ? THREE.NormalBlending : THREE.AdditiveBlending} />
     </points>
   );
 }
@@ -578,7 +594,7 @@ function WaveField({
       <mesh position={[0, -0.5, 0]}>
         <planeGeometry args={[1, 1, tier==="high"?128:64, tier==="high"?128:64]} />
         <shaderMaterial ref={fogMatRef} vertexShader={FOG_VERT} fragmentShader={FOG_FRAG}
-          uniforms={fogUniforms} transparent depthWrite={false} blending={THREE.AdditiveBlending}
+          uniforms={fogUniforms} transparent depthWrite={false} blending={themeConfig.background === "#f0fdf7" ? THREE.NormalBlending : THREE.AdditiveBlending}
           side={THREE.DoubleSide} />
       </mesh>
       
@@ -589,7 +605,7 @@ function WaveField({
           <bufferAttribute attach="attributes-aRandom" args={[lineRand, 1]} />
         </bufferGeometry>
         <shaderMaterial ref={lineMatRef} vertexShader={LINE_VERT} fragmentShader={LINE_FRAG}
-          uniforms={lineUniforms} transparent depthWrite={false} blending={THREE.AdditiveBlending} />
+          uniforms={lineUniforms} transparent depthWrite={false} blending={themeConfig.background === "#f0fdf7" ? THREE.NormalBlending : THREE.AdditiveBlending} />
       </lineSegments>
       
       {/* Energy Particles */}
@@ -599,7 +615,7 @@ function WaveField({
           <bufferAttribute attach="attributes-aRandom" args={[dotRand, 1]} />
         </bufferGeometry>
         <shaderMaterial ref={dotMatRef} vertexShader={DOT_VERT} fragmentShader={DOT_FRAG}
-          uniforms={dotUniforms} transparent depthWrite={false} blending={THREE.AdditiveBlending} />
+          uniforms={dotUniforms} transparent depthWrite={false} blending={themeConfig.background === "#f0fdf7" ? THREE.NormalBlending : THREE.AdditiveBlending} />
       </points>
     </group>
   );
@@ -617,16 +633,19 @@ function CameraRig({ c }: { c: WaveControls }) {
   return null;
 }
 
-function Scene({ controls, tier, pointer }: {
+function Scene({ controls, tier, pointer, transparent }: {
   controls: WaveControls; tier: "low"|"mid"|"high";
   pointer: React.MutableRefObject<{x:number;z:number;strength:number}>;
+  transparent?: boolean;
 }) {
   const themeConfig = THEMES[controls.colorTheme] || THEMES.normal;
+  const isLightTheme = themeConfig.background === "#f0fdf7";
+  const fogColor = transparent ? (isLightTheme ? "#f0fdf7" : "#070708") : themeConfig.background;
 
   if (controls.disableWave) {
     return (
       <>
-        <color attach="background" args={[themeConfig.background]} />
+        {!transparent && <color attach="background" args={[themeConfig.background]} />}
         <CameraRig c={controls} />
       </>
     );
@@ -634,15 +653,17 @@ function Scene({ controls, tier, pointer }: {
 
   return (
     <>
-      <color attach="background" args={[themeConfig.background]} />
-      <fog attach="fog" args={[themeConfig.background, 20, 60]} />
+      {!transparent && <color attach="background" args={[themeConfig.background]} />}
+      <fog attach="fog" args={[fogColor, 20, 60]} />
       <CameraRig c={controls} />
       <AmbientParticles tier={tier} themeConfig={themeConfig} />
       <WaveField controls={controls} tier={tier} pointer={pointer} themeConfig={themeConfig} />
-      <EffectComposer multisampling={tier === "low" ? 0 : 2}>
-        <Bloom mipmapBlur intensity={controls.glowIntensity}
-          luminanceThreshold={controls.glowThreshold} luminanceSmoothing={0.8} radius={0.8} />
-      </EffectComposer>
+      {controls.glowIntensity > 0.01 && (
+        <EffectComposer multisampling={tier === "low" ? 0 : 2}>
+          <Bloom mipmapBlur intensity={controls.glowIntensity}
+            luminanceThreshold={controls.glowThreshold} luminanceSmoothing={0.8} radius={0.8} />
+        </EffectComposer>
+      )}
     </>
   );
 }
@@ -670,16 +691,31 @@ export function HeroWaveBackground({
   cursorStrength,
   cursorRadius,
   cursorRecovery,
+  transparent,
 }: HeroWaveBackgroundProps) {
   const { tier, dpr } = useDeviceQuality();
   const pointer = useRef({ x: 0, z: 0, strength: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
+  const [isInView, setIsInView] = useState(true);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsInView(entry.isIntersecting);
+      },
+      { threshold: 0.01 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   const controls = useControls({
     Theme: folder({
       colorTheme: {
         value: colorTheme,
-        options: ["normal", "neon", "metallic", "matt", "disabled"],
+        options: ["normal", "neon", "metallic", "matt", "disabled", "lightEmerald"],
       },
       disableWave: {
         value: disableWave,
@@ -731,12 +767,13 @@ export function HeroWaveBackground({
   const themeConfig = THEMES[controls.colorTheme] || THEMES.normal;
 
   return (
-    <div ref={containerRef} className={className} style={{ background: themeConfig.background }}>
+    <div ref={containerRef} className={className} style={{ background: transparent ? "transparent" : themeConfig.background }}>
       {showControls && <Leva collapsed={false} oneLineLabels titleBar={{ title: "Wave Studio" }} />}
       {!showControls && <Leva hidden />}
       <Canvas dpr={dpr} camera={{ position: [14, 6, 18], fov: 50 }}
-        gl={{ antialias: tier !== "low", alpha: false, powerPreference: "high-performance" }}>
-        <Scene controls={controls} tier={tier} pointer={pointer} />
+        frameloop={isInView ? "always" : "never"}
+        gl={{ antialias: tier !== "low", alpha: transparent, powerPreference: "high-performance" }}>
+        <Scene controls={controls} tier={tier} pointer={pointer} transparent={transparent} />
       </Canvas>
     </div>
   );

@@ -2,6 +2,7 @@
 
 import React, { useRef, useEffect } from "react";
 import Link from "next/link";
+import { useTheme } from "./ThemeProvider";
 
 const footerLinks = {
   Company: [
@@ -36,6 +37,7 @@ export function Footer() {
   const footerRef = useRef<HTMLElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const mouseCoords = useRef({ x: 0, y: 0, active: false });
+  const { theme } = useTheme();
 
   useEffect(() => {
     const footer = footerRef.current;
@@ -103,7 +105,8 @@ export function Footer() {
       ctx.clearRect(0, 0, width, height);
 
       // Thin transparent grid lines
-      ctx.strokeStyle = "rgba(255, 255, 255, 0.015)";
+      const isDark = theme === "dark";
+      ctx.strokeStyle = isDark ? "rgba(255, 255, 255, 0.015)" : "rgba(11, 93, 72, 0.015)";
       ctx.lineWidth = 0.75;
 
       const mx = mouseCoords.current.x;
@@ -176,7 +179,7 @@ export function Footer() {
       window.removeEventListener("resize", configure);
       cancelAnimationFrame(animId);
     };
-  }, []);
+  }, [theme]);
 
   return (
     <footer ref={footerRef} className="border-t border-[var(--border-subtle)] bg-[var(--bg-alt)] mt-auto py-16 relative overflow-hidden select-none">
@@ -188,7 +191,7 @@ export function Footer() {
         <div className="flex flex-col gap-4">
           <Link
             href="/"
-            className="text-2xl font-bold text-white select-none tracking-tight"
+            className="text-2xl font-bold text-[var(--text-primary)] select-none tracking-tight"
             style={{ fontFamily: "var(--font-display)" }}
           >
             <span className="text-[var(--accent)]">t</span>eamify
@@ -201,7 +204,7 @@ export function Footer() {
         {/* Link Groups */}
         {Object.entries(footerLinks).map(([title, links]) => (
           <div key={title} className="flex flex-col gap-4 group/col">
-            <h4 className="text-[10px] font-mono font-bold uppercase tracking-widest text-white relative pb-2 w-fit">
+            <h4 className="text-[10px] font-mono font-bold uppercase tracking-widest text-[var(--text-primary)] relative pb-2 w-fit">
               {title}
               <span className="absolute bottom-0 left-0 w-full h-[1.5px] bg-[var(--accent)] scale-x-0 group-hover/col:scale-x-100 transition-transform duration-300 origin-left" />
             </h4>
@@ -210,7 +213,7 @@ export function Footer() {
                 <li key={link.label} className="group/item w-fit">
                   <Link
                     href={link.href}
-                    className="text-xs text-[var(--text-secondary)] hover:text-white transition-colors relative"
+                    className="text-xs text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors relative"
                   >
                     {link.label}
                     <span className="absolute -bottom-1 left-0 w-full h-[1px] bg-[var(--accent)]/50 scale-x-0 group-hover/item:scale-x-100 transition-transform duration-300 origin-left" />
