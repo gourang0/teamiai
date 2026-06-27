@@ -132,7 +132,7 @@ export const DeconstructingFacade: React.FC = () => {
             {outsideStats.map((stat, i) => (
               <div
                 key={`outside-${i}`}
-                className="absolute flex flex-col gap-0.5 pointer-events-none"
+                className="absolute hidden sm:flex flex-col gap-0.5 pointer-events-none"
                 style={{ left: stat.x, top: stat.y }}
               >
                 <span className="text-[8px] font-mono uppercase tracking-[0.2em] text-[#3BD996]/30">
@@ -211,7 +211,7 @@ export const DeconstructingFacade: React.FC = () => {
             {insideNodes.map((node, i) => (
               <div
                 key={`inside-${i}`}
-                className="absolute flex flex-col gap-0.5"
+                className="absolute hidden sm:flex flex-col gap-0.5"
                 style={{ left: node.x, top: node.y }}
               >
                 <span className="text-[8px] font-mono uppercase tracking-[0.2em] text-cyan-400/70">

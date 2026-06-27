@@ -100,12 +100,12 @@ export function InfrastructureReveal() {
         {/* Section title */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 select-none">
           <div className="flex flex-col gap-2 max-w-lg">
-            <span className="section-label text-left">THE OPPORTUNITY // BENTO ANALYSIS</span>
+            <span className="section-label text-left">THE OPPORTUNITY // KEY OUTCOMES</span>
             <h2 className="section-title text-left">Why AI, Why Now</h2>
             <div className="divider text-left" style={{ margin: "12px 0 0" }} />
           </div>
           <p className="text-xs text-[var(--text-secondary)] max-w-sm leading-relaxed mt-4 md:mt-0">
-            Evaluating the shift from static code automation to multi-model agentic decision frameworks.
+            Deploying secure, high-throughput agent systems that automate complex business tasks with built-in safety rails.
           </p>
         </div>
 
@@ -119,27 +119,27 @@ export function InfrastructureReveal() {
         >
           <motion.div variants={itemVariants} className="md:col-span-2">
             <BentoCard
-              metric="[METRIC_01]"
-              title="Velocity Scales"
-              desc="Accelerated core data parsing pipelines with multi-threaded execution loops."
+              metric="95% REDUCTION"
+              title="Automate Data Pipelines"
+              desc="Replace manual extraction workflows with high-accuracy, multi-threaded document parsing engines."
               icon={Zap}
             />
           </motion.div>
           
           <motion.div variants={itemVariants} className="md:col-span-1">
             <BentoCard
-              metric="[METRIC_02]"
-              title="Data Synergy"
-              desc="Deep architectural layer model connections."
+              metric="SUB-50MS"
+              title="Intelligent Routing"
+              desc="Dynamically route queries to appropriate models, balancing cost and performance."
               icon={Layers}
             />
           </motion.div>
 
           <motion.div variants={itemVariants} className="md:col-span-2">
             <BentoCard
-              metric="[METRIC_03]"
-              title="Automation"
-              desc="Eliminating flat pipeline execution errors across localized agent instances."
+              metric="99.9% UPTIME"
+              title="Enterprise Compliance"
+              desc="Secure agent runs featuring built-in PII redaction and strict compliance guardrails."
               icon={Cpu}
             />
           </motion.div>

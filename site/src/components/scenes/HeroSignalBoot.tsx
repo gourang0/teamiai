@@ -53,14 +53,14 @@ export function HeroSignalBoot() {
         showControls={false}
         colorTheme={waveTheme}
         disableWave={false}
-        flowSpeed={0.15}
+        flowSpeed={0.30}
         amp={0.50}
         pointSize={0.2}
-        lineOpacity={0.10}
+        lineOpacity={0.14}
         camX={10.8}
         camY={16.8}
         camZ={40.0}
-        fov={39}
+        fov={40}
         targetX={10.0}
         targetY={6.1}
         scale={1.70}
@@ -68,7 +68,7 @@ export function HeroSignalBoot() {
         orbitSpeed={0.00}
         glowIntensity={0.00}
         glowThreshold={0.09}
-        cursorStrength={0.10}
+        cursorStrength={0.18}
         cursorRadius={1.9}
         cursorRecovery={0.60}
       />
@@ -93,8 +93,8 @@ export function HeroSignalBoot() {
             className="text-4xl sm:text-5xl md:text-7xl font-extrabold tracking-tight text-[var(--text-primary)] leading-[1.1]"
             style={{ fontFamily: "var(--font-display)" }}
           >
-            AI Services Built to Move <br className="hidden sm:inline" />
-            Your Business Forward
+            Engineered AI Systems <br className="hidden sm:inline" />
+            & Custom Agents
           </motion.h1>
 
           {/* Subtitle */}
@@ -102,7 +102,7 @@ export function HeroSignalBoot() {
             variants={itemVariants}
             className="text-sm md:text-base text-[var(--text-secondary)] max-w-[620px] leading-relaxed"
           >
-            From intelligent automation to custom AI agents — practical, secure AI solutions designed around your goals, not the other way around.
+            We design, build, and deploy production-ready AI agents and systems that integrate with your databases, APIs, and business workflows—delivering measurable outcomes, not just hype.
           </motion.p>
 
           {/* CTA Buttons */}
@@ -111,13 +111,13 @@ export function HeroSignalBoot() {
             className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto mt-2"
           >
             <Magnetic>
-              <Link href="/services" className="btn btn-primary btn-lg justify-center w-full sm:w-auto">
-                AI Capabilities Overview
+              <Link href="/#services" className="btn btn-primary btn-lg justify-center w-full sm:w-auto">
+                Explore Capabilities
               </Link>
             </Magnetic>
             <Magnetic>
               <Link href="/contact" className="btn btn-secondary btn-lg justify-center w-full sm:w-auto glass-panel">
-                Start a Conversation
+                Schedule Consultation
               </Link>
             </Magnetic>
           </motion.div>
