@@ -25,7 +25,7 @@ export function QuirkyChatbot() {
   const [messages, setMessages] = useState<Message[]>([
     {
       sender: "bot",
-      text: "Beep boop! 🤖 I'm the Teamify self-aware chatbot. I was added to address the critique that our website is 'too dark and serious'. Ask me anything or let me crack a joke!",
+      text: "Hi there! I'm the Teamify Assistant. 🤖 Ask me about our custom AI engineering services, how autonomous agents work, or for a nerdy developer joke!",
     },
   ]);
   const [currentJokeIdx, setCurrentJokeIdx] = useState(0);
@@ -52,7 +52,7 @@ export function QuirkyChatbot() {
       botText = "An AI agent is like a virtual employee with a brain (LLM), memory (databases), and tools (APIs, email, spreadsheets). Instead of just answering questions, they execute complete workflows autonomously.";
     } else if (promptType === "discount") {
       userText = "Is there a discount?";
-      botText = "No discounts, but our AI agents don't require health insurance, 401(k) matches, or organic snacks in the pantry. So it practically pays for itself! 😉";
+      botText = "We don't offer standard discounts, but we optimize our systems using model routing and VPC local execution, which typically reduces external LLM API costs by up to 60%! So it practically pays for itself. 😉";
     } else if (promptType === "work") {
       userText = "How do we start?";
       botText = "Easy! Head over to our contact page and schedule a consultation. I'm routing you there now. Hold onto your seat... 🚀";

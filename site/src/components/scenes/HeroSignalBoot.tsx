@@ -6,15 +6,19 @@ import { Magnetic } from "@/components/Magnetic";
 import { HeroWaveBackground } from "@/components/HeroWaveBackground";
 import { useTheme } from "@/components/ThemeProvider";
 
-const partnerLogos = [
-  "Acme Corp",
-  "Initech",
-  "Umbrella Corp",
-  "Hooli",
-  "Globex Corporation",
-  "Vehement",
-  "Soylent Corp",
-  "Stark Industries",
+const techStack = [
+  "Python",
+  "TypeScript",
+  "LangChain",
+  "LlamaIndex",
+  "PyTorch",
+  "Docker",
+  "AWS VPC",
+  "Google Cloud",
+  "PostgreSQL",
+  "OpenAI API",
+  "Anthropic API",
+  "Hugging Face",
 ];
 
 export function HeroSignalBoot() {
@@ -129,21 +133,27 @@ export function HeroSignalBoot() {
         <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-[var(--bg-primary)] to-transparent z-10 pointer-events-none" />
         <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-[var(--bg-primary)] to-transparent z-10 pointer-events-none" />
 
+        <div className="flex flex-col items-center mb-2 select-none">
+          <span className="text-[9px] font-mono tracking-widest text-[var(--text-muted)] uppercase">
+            Specialized Tech Integration Stack
+          </span>
+        </div>
+
         <div className="animate-infinite-slider flex gap-16 items-center">
-          {partnerLogos.map((logo, idx) => (
+          {techStack.map((tech, idx) => (
             <span
-              key={`logo-1-${idx}`}
+              key={`tech-1-${idx}`}
               className="text-xs font-mono tracking-wider text-[var(--text-muted)] uppercase select-none opacity-60 hover:opacity-100 hover:text-[var(--accent-text)] transition-all"
             >
-              {logo}
+              {tech}
             </span>
           ))}
-          {partnerLogos.map((logo, idx) => (
+          {techStack.map((tech, idx) => (
             <span
-              key={`logo-2-${idx}`}
+              key={`tech-2-${idx}`}
               className="text-xs font-mono tracking-wider text-[var(--text-muted)] uppercase select-none opacity-60 hover:opacity-100 hover:text-[var(--accent-text)] transition-all"
             >
-              {logo}
+              {tech}
             </span>
           ))}
         </div>

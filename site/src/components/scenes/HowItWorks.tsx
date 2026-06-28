@@ -28,7 +28,7 @@ const lifecycleSteps = [
     title: "Orchestrated Model Execution",
     icon: Cpu,
     desc: "The payload is sent to specialized APIs or localized instances. We balance calls across Groq, Anthropic, and OpenAI.",
-    details: "Uses multi-threaded fallbacks. If Groq encounters rate limits, the system auto-shifts execution to standby APIs under 50ms.",
+    details: "Employs high-availability gateway routing. If a primary API provider encounters rate limits or latency spikes, the system automatically redirects traffic to failover models (e.g. Anthropic, OpenAI, or local LLaMA nodes) without interrupting user sessions.",
   },
   {
     step: "04",

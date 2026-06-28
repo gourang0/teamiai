@@ -22,7 +22,7 @@ const securityFeatures = [
   {
     icon: FileCheck,
     title: "Compliance & Audit Logging",
-    desc: "Every cognitive decision point generates structured, queryable access logs. Fully engineered to meet strict SOC2 Type II, HIPAA, and GDPR audit standards.",
+    desc: "Every cognitive decision point generates structured, queryable access logs. We design and construct all custom systems following SOC2 Type II, HIPAA, and GDPR compliant architectures, ensuring your system audit trails remain fully secure.",
   },
 ];
 
