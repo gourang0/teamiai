@@ -1,12 +1,12 @@
 import { HeroSignalBoot } from "@/components/scenes/HeroSignalBoot";
-import { DeconstructingFacade } from "@/components/scenes/DeconstructingFacade";
+
 import { InfrastructureReveal } from "@/components/scenes/InfrastructureReveal";
-import { AIIntegrationHub } from "@/components/scenes/AIIntegrationHub";
+
 import { CapabilityMatrix } from "@/components/scenes/CapabilityMatrix";
 import { UseCasesByRole } from "@/components/scenes/UseCasesByRole";
-import { IndustryIntelligence } from "@/components/scenes/IndustryIntelligence";
+
 import { HowItWorks } from "@/components/scenes/HowItWorks";
-import { SystemSandboxBlock } from "@/components/scenes/SystemSandboxBlock";
+
 import { SecurityTrust } from "@/components/scenes/SecurityTrust";
 import { PricingExpectations } from "@/components/scenes/PricingExpectations";
 import { TrustStabilization } from "@/components/scenes/TrustStabilization";
@@ -19,14 +19,12 @@ export default function Home() {
       {/* Slide 1 — Hero */}
       <HeroSignalBoot />
 
-      {/* Signature reveal transition */}
-      <DeconstructingFacade />
+
 
       {/* Slide 2 — The Opportunity / Why AI, Why Now */}
       <InfrastructureReveal />
 
-      {/* Real-time Agentic Integration Hub */}
-      <AIIntegrationHub />
+
 
       {/* Slide 3, 4, 5 — Capabilities & Deep Dives */}
       <CapabilityMatrix />
@@ -34,14 +32,12 @@ export default function Home() {
       {/* Use Cases by Role */}
       <UseCasesByRole />
 
-      {/* Industries Tab Selector */}
-      <IndustryIntelligence />
+
 
       {/* Step-by-Step AI Agent Lifecycle */}
       <HowItWorks />
 
-      {/* Live System Sandbox Block */}
-      <SystemSandboxBlock />
+
 
       {/* Security & Compliance Protocols */}
       <SecurityTrust />

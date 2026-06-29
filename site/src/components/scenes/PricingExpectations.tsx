@@ -1,53 +1,50 @@
 "use client";
 
-import { Check, ArrowRight } from "lucide-react";
+import { Check, ArrowRight, Lightbulb, Blocks, Users } from "lucide-react";
 import Link from "next/link";
 import { GlowCard } from "@/components/GlowCard";
 
 const pricingPlans = [
   {
     name: "Pilot Project (PoC)",
-    price: "$15,000",
-    period: "fixed price",
-    duration: "2-4 Weeks Delivery",
-    desc: "Designed to prove technical feasibility of a single core agentic workflow on your real data.",
+    icon: Lightbulb,
+    duration: "2-4 Weeks Prototype",
+    desc: "Rapidly validate technical feasibility. We build a high-fidelity working agent prototype using your custom data to prove core ROI before full-scale development.",
     inclusions: [
       "Single custom agent prototype",
-      "Sandbox simulation testing environment",
-      "VPC installation feasibility report",
-      "Custom API integration adapters",
+      "Real-data validation simulation",
+      "Secure VPC feasibility audit",
+      "Production integration blueprint",
     ],
     highlight: false,
     cta: "Initiate Pilot",
   },
   {
-    name: "Enterprise Integration",
-    price: "$45,000",
-    period: "starts at",
+    name: "Enterprise System",
+    icon: Blocks,
     duration: "6-12 Weeks Delivery",
-    desc: "Complete design, custom development, and production deployment of multi-agent intelligence.",
+    desc: "End-to-end design, custom development, and private cloud deployment of coordinated multi-agent orchestration layers built for scale.",
     inclusions: [
-      "Custom multi-agent workflows",
-      "Private cloud VPC deployment (AWS/GCP)",
-      "Local PII redactor & schema guardrails",
-      "Legacy database custom connectors",
-      "3 months post-launch system monitoring",
+      "Custom multi-agent orchestrations",
+      "VPC deployment (AWS, GCP, Azure)",
+      "Local PII redaction & security guardrails",
+      "Custom database & API connectors",
+      "3 months post-launch systems monitoring",
     ],
     highlight: true,
     cta: "Deploy Enterprise",
   },
   {
-    name: "Dedicated ML Pod",
-    price: "$20,000",
-    period: "per month",
-    duration: "Sprint-Based Retainer",
-    desc: "Dedicated engineering allocation focused exclusively on your ML product roadmap and feature sprint updates.",
+    name: "Dedicated Retainer",
+    icon: Users,
+    duration: "Continuous Support",
+    desc: "Dedicated allocation of senior machine learning engineers and architects integrated into your Slack and agile sprint cycles for roadmap scaling.",
     inclusions: [
-      "1x Dedicated Senior ML Engineer",
+      "Dedicated Senior ML Engineer(s)",
       "Fractional Lead Architect oversight",
       "Direct Slack & agile sprint integration",
       "Continuous prompt tuning & drift audit",
-      "Guaranteed priority email/Slack SLA",
+      "Priority response time SLA",
     ],
     highlight: false,
     cta: "Partner with Us",
@@ -61,10 +58,10 @@ export function PricingExpectations() {
         {/* Title */}
         <div className="flex flex-col items-center text-center mb-16 select-none">
           <span className="section-label">Engagement Models</span>
-          <h2 className="section-title">Pricing & Packages</h2>
+          <h2 className="section-title">How We Work Together</h2>
           <div className="divider" />
           <p className="section-desc">
-            Clear, transparent structures shaped around business value. No surprises, no hidden API markups.
+            Flexible, results-driven collaboration frameworks tailored to your organization's technical complexity and business scale.
           </p>
         </div>
 
@@ -79,38 +76,38 @@ export function PricingExpectations() {
                   : "border-[var(--border-subtle)] bg-[var(--surface-primary)]"
               }`}
             >
-              {plan.highlight && (
-                <div className="absolute top-0 right-0 bg-[var(--accent)] text-white text-[8px] font-mono font-bold tracking-widest px-3 py-1 uppercase rounded-bl-lg select-none">
-                  RECOMMENDED
-                </div>
-              )}
-
               <div className="flex flex-col gap-6">
-                <div>
-                  <h3 className="text-sm font-extrabold text-[var(--text-primary)] uppercase tracking-wider font-mono">
-                    {plan.name}
-                  </h3>
-                  <span className="text-[10px] text-[var(--accent-text)] font-mono font-bold block mt-1">
-                    {plan.duration}
-                  </span>
+                {/* Header Container */}
+                <div className="border-b border-[var(--border-subtle)] pb-5 flex flex-col gap-4">
+                  <div className="flex items-center justify-between">
+                    <div className="p-2.5 bg-[var(--bg-secondary)]/50 border border-[var(--border-subtle)] text-[var(--accent-text)] rounded-xl w-fit">
+                      <plan.icon size={16} />
+                    </div>
+                    {plan.highlight && (
+                      <span className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[8px] font-mono font-bold tracking-widest px-2.5 py-1 uppercase rounded select-none">
+                        RECOMMENDED
+                      </span>
+                    )}
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-extrabold text-[var(--text-primary)] uppercase tracking-wider font-mono">
+                      {plan.name}
+                    </h3>
+                    <span className="text-[10px] text-[var(--accent-text)] font-mono font-bold block mt-1">
+                      {plan.duration}
+                    </span>
+                  </div>
                 </div>
 
-                <div className="flex items-baseline gap-2 border-b border-[var(--border-subtle)] pb-4">
-                  <span className="text-4xl font-black text-[var(--text-primary)] font-display">
-                    {plan.price}
-                  </span>
-                  <span className="text-[10px] font-mono text-[var(--text-muted)] uppercase">
-                    / {plan.period}
-                  </span>
-                </div>
-
-                <p className="text-xs text-[var(--text-secondary)] leading-relaxed h-[60px]">
+                {/* Description */}
+                <p className="text-xs text-[var(--text-secondary)] leading-relaxed min-h-[60px]">
                   {plan.desc}
                 </p>
 
+                {/* Inclusions */}
                 <div className="flex flex-col gap-3">
                   <span className="text-[9px] font-mono text-[var(--text-muted)] uppercase tracking-wider font-bold">
-                    What's Included:
+                    Key Outcomes:
                   </span>
                   <ul className="flex flex-col gap-2">
                     {plan.inclusions.map((item, i) => (
@@ -123,12 +120,13 @@ export function PricingExpectations() {
                 </div>
               </div>
 
+              {/* Call to action */}
               <div className="mt-8">
                 <Link
                   href="/contact"
-                  className={`btn btn-lg w-full justify-center text-xs font-mono font-bold flex items-center gap-2 cursor-pointer ${
+                  className={`btn btn-lg w-full justify-center text-xs font-mono font-bold flex items-center gap-2 cursor-pointer transition-all ${
                     plan.highlight
-                      ? "btn-primary"
+                      ? "btn-primary shadow-md"
                       : "btn-secondary border border-[var(--border-primary)] hover:border-[var(--accent)]"
                   }`}
                 >

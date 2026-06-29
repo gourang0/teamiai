@@ -7,7 +7,7 @@ import { Footer } from "@/components/Footer";
 import { FlowFieldBackground } from "@/components/FlowFieldBackground";
 import { FallingOrbs } from "@/components/FallingOrbs";
 import { SimpleTechCursor } from "@/components/SimpleTechCursor";
-import { QuirkyChatbot } from "@/components/QuirkyChatbot";
+
 
 
 const syne = Syne({
@@ -70,7 +70,7 @@ export default function RootLayout({
           <Navigation />
           <main>{children}</main>
           <Footer />
-          <QuirkyChatbot />
+
         </ThemeProvider>
       </body>
     </html>

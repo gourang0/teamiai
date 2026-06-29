@@ -6,20 +6,7 @@ import { Magnetic } from "@/components/Magnetic";
 import { HeroWaveBackground } from "@/components/HeroWaveBackground";
 import { useTheme } from "@/components/ThemeProvider";
 
-const techStack = [
-  "Python",
-  "TypeScript",
-  "LangChain",
-  "LlamaIndex",
-  "PyTorch",
-  "Docker",
-  "AWS VPC",
-  "Google Cloud",
-  "PostgreSQL",
-  "OpenAI API",
-  "Anthropic API",
-  "Hugging Face",
-];
+
 
 export function HeroSignalBoot() {
   const { theme } = useTheme();
@@ -128,36 +115,7 @@ export function HeroSignalBoot() {
         </motion.div>
       </div>
 
-      {/* Infinite Partners Carousel Slider */}
-      <div className="w-full mt-20 overflow-hidden relative py-4 border-y border-[var(--border-subtle)] bg-[var(--bg-alt)]/30 backdrop-blur-sm">
-        <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-[var(--bg-primary)] to-transparent z-10 pointer-events-none" />
-        <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-[var(--bg-primary)] to-transparent z-10 pointer-events-none" />
 
-        <div className="flex flex-col items-center mb-2 select-none">
-          <span className="text-[9px] font-mono tracking-widest text-[var(--text-muted)] uppercase">
-            Specialized Tech Integration Stack
-          </span>
-        </div>
-
-        <div className="animate-infinite-slider flex gap-16 items-center">
-          {techStack.map((tech, idx) => (
-            <span
-              key={`tech-1-${idx}`}
-              className="text-xs font-mono tracking-wider text-[var(--text-muted)] uppercase select-none opacity-60 hover:opacity-100 hover:text-[var(--accent-text)] transition-all"
-            >
-              {tech}
-            </span>
-          ))}
-          {techStack.map((tech, idx) => (
-            <span
-              key={`tech-2-${idx}`}
-              className="text-xs font-mono tracking-wider text-[var(--text-muted)] uppercase select-none opacity-60 hover:opacity-100 hover:text-[var(--accent-text)] transition-all"
-            >
-              {tech}
-            </span>
-          ))}
-        </div>
-      </div>
     </section>
   );
 }
