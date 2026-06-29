@@ -13,6 +13,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import Link from "next/link";
+import { HowItWorks } from "@/components/scenes/HowItWorks";
 
 
 const services = [
@@ -136,6 +137,9 @@ export default function ServicesPage() {
           </div>
         </div>
       </section>
+
+      {/* How It Works */}
+      <HowItWorks />
 
       {/* CTA */}
       <section className="section bg-[var(--bg-secondary)]">

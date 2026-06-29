@@ -99,15 +99,10 @@ export function HeroSignalBoot() {
           {/* CTA Buttons */}
           <motion.div
             variants={itemVariants}
-            className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto mt-2"
+            className="flex justify-center w-full mt-2"
           >
             <Magnetic>
-              <Link href="/#services" className="btn btn-primary btn-lg justify-center w-full sm:w-auto">
-                Explore Capabilities
-              </Link>
-            </Magnetic>
-            <Magnetic>
-              <Link href="/contact" className="btn btn-secondary btn-lg justify-center w-full sm:w-auto glass-panel">
+              <Link href="/contact" className="btn btn-primary btn-lg justify-center w-full sm:w-auto shadow-lg shadow-[var(--accent)]/10">
                 Schedule Consultation
               </Link>
             </Magnetic>

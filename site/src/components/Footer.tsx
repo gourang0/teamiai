@@ -12,7 +12,6 @@ const footerLinks = {
     { label: "Contact", href: "/contact" },
   ],
   Services: [
-    { label: "Hiring Models", href: "/services/hiring-models" },
     { label: "AI Services", href: "/services/ai-services" },
     { label: "AI Solutions", href: "/services/ai-solutions" },
   ],

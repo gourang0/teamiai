@@ -67,12 +67,6 @@ const servicesCategory: NavCategory = {
   title: "Services",
   items: [
     {
-      label: "Hiring Models",
-      href: "/services/hiring-models",
-      icon: UserPlus,
-      description: "Build your AI team with Teamify",
-    },
-    {
       label: "AI Services",
       href: "/services/ai-services",
       icon: Cpu,

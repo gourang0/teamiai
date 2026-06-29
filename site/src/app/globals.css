@@ -444,12 +444,7 @@ html.light .glass-panel {
   --accent-text: #3BD996;
   --accent-subtle-bg: rgba(19, 138, 100, 0.10);
 }
-.page-hiring-models {
-  --accent: #0B5D48;
-  --accent-hover: #138A64;
-  --accent-text: #1FA971;
-  --accent-subtle-bg: rgba(11, 93, 72, 0.10);
-}
+
 .page-solutions {
   --accent: #1FA971;
   --accent-hover: #3BD996;
@@ -500,12 +495,7 @@ html.light .glass-panel {
     radial-gradient(ellipse 40% 30% at 80% 60%, rgba(31, 169, 113, 0.06), transparent 60%),
     var(--bg-primary);
 }
-.bg-gradient-subtle.page-hiring-models {
-  background:
-    radial-gradient(ellipse 60% 40% at 50% 0%, rgba(11, 93, 72, 0.12), transparent 70%),
-    radial-gradient(ellipse 40% 30% at 80% 60%, rgba(19, 138, 100, 0.06), transparent 60%),
-    var(--bg-primary);
-}
+
 .bg-gradient-subtle.page-solutions {
   background:
     radial-gradient(ellipse 60% 40% at 50% 0%, rgba(31, 169, 113, 0.12), transparent 70%),

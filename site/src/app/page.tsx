@@ -1,12 +1,7 @@
 import { HeroSignalBoot } from "@/components/scenes/HeroSignalBoot";
-
 import { InfrastructureReveal } from "@/components/scenes/InfrastructureReveal";
-
 import { CapabilityMatrix } from "@/components/scenes/CapabilityMatrix";
 import { UseCasesByRole } from "@/components/scenes/UseCasesByRole";
-
-import { HowItWorks } from "@/components/scenes/HowItWorks";
-
 import { SecurityTrust } from "@/components/scenes/SecurityTrust";
 import { PricingExpectations } from "@/components/scenes/PricingExpectations";
 import { TrustStabilization } from "@/components/scenes/TrustStabilization";
@@ -16,42 +11,31 @@ import { ConversionLayer } from "@/components/scenes/ConversionLayer";
 export default function Home() {
   return (
     <div className="flex flex-col">
-      {/* Slide 1 — Hero */}
+      {/* Slide 1 — Hero Section */}
       <HeroSignalBoot />
 
-
-
-      {/* Slide 2 — The Opportunity / Why AI, Why Now */}
-      <InfrastructureReveal />
-
-
-
-      {/* Slide 3, 4, 5 — Capabilities & Deep Dives */}
+      {/* Slide 2 — AI Services (What we offer) */}
       <CapabilityMatrix />
 
-      {/* Use Cases by Role */}
+      {/* Slide 3 — Use Cases by Role */}
       <UseCasesByRole />
 
-
-
-      {/* Step-by-Step AI Agent Lifecycle */}
-      <HowItWorks />
-
-
-
-      {/* Security & Compliance Protocols */}
-      <SecurityTrust />
-
-      {/* Transparent Pricing Expectations */}
+      {/* Slide 4 — How We Work Together (Engagement Models) */}
       <PricingExpectations />
 
-      {/* Slide 6 — Why Teamify / Our Difference */}
-      <TrustStabilization />
-
-      {/* Slide 7 — Our Process / How We Work */}
+      {/* Slide 5 — How We Work (Our Process) */}
       <Process />
 
-      {/* Slide 8 — CTA / Let's Talk AI */}
+      {/* Slide 6 — Trust & Security */}
+      <SecurityTrust />
+
+      {/* Slide 7 — Why AI, Why Now */}
+      <InfrastructureReveal />
+
+      {/* Slide 8 — Why Teamify / Our Difference */}
+      <TrustStabilization />
+
+      {/* Slide 9 — CTA / Let's Talk AI */}
       <ConversionLayer />
     </div>
   );
