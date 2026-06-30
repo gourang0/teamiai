@@ -12,7 +12,7 @@ const rolesData = [
     subtitle: "Drowning in repetitive processing & email bottlenecks.",
     icon: Users,
     color: "from-blue-500/10 to-indigo-500/10 border-blue-500/20",
-    textToken: "text-blue-400",
+    textToken: "dark:text-blue-400 text-blue-600",
     painPoints: [
       "Staff spending hours manually copying data from documents to ERP systems.",
       "High human error rates under peak transaction volumes.",
@@ -30,7 +30,7 @@ const rolesData = [
     subtitle: "Struggling to build reliable AI features with raw APIs.",
     icon: Cpu,
     color: "from-emerald-500/10 to-teal-500/10 border-emerald-500/20",
-    textToken: "text-emerald-400",
+    textToken: "dark:text-emerald-400 text-emerald-700",
     painPoints: [
       "Raw LLM calls return unstructured or erratic formats, breaking system code.",
       "Expensive API token billing from routing simple queries to giant models.",
@@ -48,7 +48,7 @@ const rolesData = [
     subtitle: "Seeking to scale operations and output without bloating headcount.",
     icon: TrendingUp,
     color: "from-amber-500/10 to-orange-500/10 border-amber-500/20",
-    textToken: "text-amber-400",
+    textToken: "dark:text-amber-400 text-amber-700",
     painPoints: [
       "Operational overhead scaling linearly with transaction volume.",
       "Losing competitive advantage due to slow product feature adaptation.",
@@ -136,7 +136,7 @@ export function UseCasesByRole() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
                   {/* Left: Pain Points */}
                   <div className="flex flex-col gap-4">
-                    <span className="text-[10px] font-mono tracking-widest text-rose-400 font-bold uppercase flex items-center gap-1.5">
+                    <span className="text-[10px] font-mono tracking-widest dark:text-rose-400 text-rose-600 font-bold uppercase flex items-center gap-1.5">
                       <AlertCircle size={12} />
                       Current Bottlenecks
                     </span>
@@ -152,7 +152,7 @@ export function UseCasesByRole() {
 
                   {/* Right: Solutions */}
                   <div className="flex flex-col gap-4">
-                    <span className="text-[10px] font-mono tracking-widest text-emerald-400 font-bold uppercase flex items-center gap-1.5">
+                    <span className="text-[10px] font-mono tracking-widest dark:text-emerald-400 text-[var(--accent-text)] font-bold uppercase flex items-center gap-1.5">
                       <CheckCircle2 size={12} />
                       Teamify AI Strategy
                     </span>

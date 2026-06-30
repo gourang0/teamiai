@@ -4,8 +4,6 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
-import { FlowFieldBackground } from "@/components/FlowFieldBackground";
-import { FallingOrbs } from "@/components/FallingOrbs";
 import { SimpleTechCursor } from "@/components/SimpleTechCursor";
 
 
@@ -63,8 +61,6 @@ export default function RootLayout({
         className={`${syne.variable} ${plusJakartaSans.variable} ${jetbrainsMono.variable} antialiased`}
       >
         <ThemeProvider>
-          <FlowFieldBackground />
-          <FallingOrbs />
           <SimpleTechCursor />
           <div className="noise-overlay fixed inset-0 pointer-events-none z-[9999]" />
           <Navigation />

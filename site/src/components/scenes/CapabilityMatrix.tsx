@@ -106,7 +106,7 @@ export function CapabilityMatrix() {
   const ActiveIcon = currentCapability.icon;
 
   return (
-    <section id="services" className="section bg-transparent border-t border-[var(--border-subtle)]">
+    <section id="services" className="section bg-transparent">
       <div className="container mx-auto px-6">
         {/* Title */}
         <div className="flex flex-col items-center text-center mb-16 select-none">
@@ -121,7 +121,7 @@ export function CapabilityMatrix() {
         {/* 60/40 Asymmetrical Panel Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 max-w-[1100px] mx-auto items-stretch">
           {/* Left Column (Selector List - 5 cols) */}
-          <div className="lg:col-span-5 flex flex-col gap-2.5">
+          <div className="lg:col-span-5 flex flex-col gap-2 lg:max-h-[460px] lg:overflow-y-auto pr-1">
             {capabilities.map((cap) => {
               const CapIcon = cap.icon;
               const isActive = activeTab === cap.id;
@@ -129,21 +129,21 @@ export function CapabilityMatrix() {
                 <button
                   key={cap.id}
                   onClick={() => setActiveTab(cap.id)}
-                  className={`text-left p-4 rounded-xl border text-xs transition-all flex items-center gap-4 cursor-pointer ${
+                  className={`text-left py-2.5 px-3 rounded-xl border text-xs transition-all flex items-center gap-3.5 cursor-pointer ${
                     isActive
                       ? "bg-[var(--accent-subtle-bg)] border-[var(--accent)] text-[var(--text-primary)] shadow-sm"
                       : "bg-[var(--surface-primary)] border-[var(--border-subtle)] text-[var(--text-secondary)] hover:border-[var(--border-primary)]"
                   }`}
                 >
                   <div
-                    className={`p-2 rounded-lg ${
+                    className={`p-1.5 rounded-lg ${
                       isActive ? "bg-[var(--accent)] text-white" : "bg-[var(--bg-secondary)] text-[var(--text-muted)]"
                     }`}
                   >
-                    <CapIcon size={16} />
+                    <CapIcon size={15} />
                   </div>
                   <div className="flex-1">
-                    <span className="font-bold text-xs block">{cap.name}</span>
+                    <span className="font-bold text-xs block leading-tight">{cap.name}</span>
                   </div>
                 </button>
               );

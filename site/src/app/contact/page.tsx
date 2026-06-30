@@ -181,55 +181,55 @@ function TelemetryConsole({
   };
 
   return (
-    <div className="terminal-window text-[10px] select-none h-full flex flex-col border border-[var(--border-primary)]">
+    <div className="terminal-window text-[10px] select-none h-full flex flex-col border border-zinc-800/80">
       <div className="terminal-header">
         <div className="terminal-dots">
           <div className="terminal-dot red" />
           <div className="terminal-dot yellow" />
           <div className="terminal-dot green" />
         </div>
-        <div className="font-mono text-[9px] text-[var(--text-muted)] flex items-center gap-1.5">
-          <Activity size={10} className="text-[var(--accent)] animate-pulse" />
+        <div className="font-mono text-[9px] text-zinc-500 flex items-center gap-1.5">
+          <Activity size={10} className="text-emerald-500 animate-pulse" />
           sys.telemetry_mon v1.0.4
         </div>
       </div>
 
       <div className="flex-1 flex flex-col overflow-hidden min-h-[400px]">
         {/* Metric Bar */}
-        <div className="grid grid-cols-3 border-b border-[var(--border-subtle)] bg-[#05110f] p-3 text-center gap-2">
+        <div className="grid grid-cols-3 border-b border-zinc-900 bg-[#05110f] p-3 text-center gap-2">
           <div>
-            <div className="text-[8px] text-[var(--text-muted)] uppercase tracking-wider">LATENCY</div>
-            <div className="font-mono font-semibold text-[var(--accent-text)] text-xs">{latency}ms</div>
+            <div className="text-[8px] text-zinc-500 uppercase tracking-wider">LATENCY</div>
+            <div className="font-mono font-semibold text-emerald-400 text-xs">{latency}ms</div>
           </div>
           <div>
-            <div className="text-[8px] text-[var(--text-muted)] uppercase tracking-wider">ENCRYPTION</div>
-            <div className="font-mono font-semibold text-[var(--accent-text)] text-[10px] flex items-center justify-center gap-1">
+            <div className="text-[8px] text-zinc-500 uppercase tracking-wider">ENCRYPTION</div>
+            <div className="font-mono font-semibold text-emerald-400 text-[10px] flex items-center justify-center gap-1">
               AES-256
             </div>
           </div>
           <div>
-            <div className="text-[8px] text-[var(--text-muted)] uppercase tracking-wider">BUFFER</div>
-            <div className="font-mono font-semibold text-[var(--accent-text)] text-xs">
+            <div className="text-[8px] text-zinc-500 uppercase tracking-wider">BUFFER</div>
+            <div className="font-mono font-semibold text-emerald-400 text-xs">
               {subState === "success" ? "0.00 KB" : `${(JSON.stringify(data).length / 1024).toFixed(2)} KB`}
             </div>
           </div>
         </div>
 
         {/* JSON Stream View */}
-        <div className="p-4 flex-1 overflow-y-auto font-mono bg-[#030908] border-b border-[var(--border-subtle)] max-h-[220px]">
-          <span className="text-[var(--text-muted)]">{"// LIVE RECORD STATE PAYLOAD"}</span>
-          <pre className="text-[var(--text-primary)] mt-1.5 whitespace-pre-wrap select-text leading-relaxed">
+        <div className="p-4 flex-1 overflow-y-auto font-mono bg-[#030908] border-b border-zinc-900 max-h-[220px]">
+          <span className="text-zinc-500">{"// LIVE RECORD STATE PAYLOAD"}</span>
+          <pre className="text-zinc-300 mt-1.5 whitespace-pre-wrap select-text leading-relaxed">
             {renderJSON()}
           </pre>
         </div>
 
         {/* Console Logs */}
         <div className="p-4 flex-1 overflow-y-auto bg-[#020605] max-h-[180px] font-mono scrollbar-thin">
-          <span className="text-[var(--text-muted)]">{"// TRANSACTION GATEWAY LOGS"}</span>
+          <span className="text-zinc-500">{"// TRANSACTION GATEWAY LOGS"}</span>
           <div className="mt-1.5 flex flex-col gap-1">
             {logs.map((log, idx) => (
-              <div key={idx} className="leading-relaxed text-[var(--text-secondary)]">
-                <span className="text-[var(--accent)] font-semibold">&gt; </span>
+              <div key={idx} className="leading-relaxed text-zinc-400">
+                <span className="text-emerald-500 font-semibold">&gt; </span>
                 {log}
               </div>
             ))}

@@ -56,14 +56,14 @@ const BentoCard: React.FC<BentoCardProps> = ({ metric, title, desc, className, i
       {/* Card Contents */}
       <div className="flex flex-col gap-4 relative z-20">
         <div className="flex justify-between items-start">
-          <span className="text-[10px] font-mono tracking-widest text-emerald-400 font-bold">
+          <span className="text-[10px] font-mono tracking-widest text-[var(--accent-text)] font-bold">
             {metric}
           </span>
-          <div className="p-2.5 bg-[var(--bg-secondary)]/50 border border-[var(--border-subtle)] text-emerald-400 rounded-lg">
+          <div className="p-2.5 bg-[var(--bg-secondary)]/50 border border-[var(--border-subtle)] text-[var(--accent-text)] rounded-lg">
             <Icon size={18} />
           </div>
         </div>
-        <h3 className="text-xl font-bold text-white tracking-tight" style={{ fontFamily: "var(--font-display)" }}>
+        <h3 className="text-xl font-bold text-[var(--text-primary)] tracking-tight" style={{ fontFamily: "var(--font-display)" }}>
           {title}
         </h3>
       </div>

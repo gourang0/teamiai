@@ -111,19 +111,19 @@ export const THEMES: Record<string, ColorThemeConfig> = {
     background: "#0f1213",
   },
   lightEmerald: {
-    deep: "#d1d5db",
-    mid: "#9ca3af",
-    bright: "#4b5563",
-    spine: "#1f2937",
-    core: "#000000",
-    lineDark: "#e5e7eb",
-    lineBright: "#4b5563",
-    lineSpine: "#1f2937",
-    lineCore: "#000000",
-    fogEdge: "#f0fdf7",
-    fogCore: "#e6f7ef",
-    ambient: "#374151",
-    background: "#f0fdf7",
+    deep: "#EAE6DF",
+    mid: "#C5BEB5",
+    bright: "#8E8478",
+    spine: "#10664B",
+    core: "#0D503A",
+    lineDark: "#FAF8F5",
+    lineBright: "#8E8478",
+    lineSpine: "#10664B",
+    lineCore: "#0D503A",
+    fogEdge: "#FAF8F5",
+    fogCore: "#F3EFE9",
+    ambient: "#5C534C",
+    background: "#FAF8F5",
   },
   disabled: {
     deep: "#080808",
@@ -639,8 +639,8 @@ function Scene({ controls, tier, pointer, transparent }: {
   transparent?: boolean;
 }) {
   const themeConfig = THEMES[controls.colorTheme] || THEMES.normal;
-  const isLightTheme = themeConfig.background === "#f0fdf7";
-  const fogColor = transparent ? (isLightTheme ? "#f0fdf7" : "#070708") : themeConfig.background;
+  const isLightTheme = themeConfig.background === "#FAF8F5";
+  const fogColor = transparent ? (isLightTheme ? "#FAF8F5" : "#070708") : themeConfig.background;
 
   if (controls.disableWave) {
     return (

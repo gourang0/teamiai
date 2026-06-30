@@ -36,10 +36,11 @@
 
   /* Dark Theme (default) */
   html.dark {
-    --bg-primary: #070708;
-    --bg-secondary: #0a0a0c;
-    --surface-primary: #121214;
-    --surface-elevated: #161619;
+    --bg-primary: #000000;
+    --bg-secondary: #000000;
+    --bg-alt: #000000;
+    --surface-primary: #070708;
+    --surface-elevated: #0a0a0c;
 
     --text-primary: #F0FDF4;
     --text-secondary: #C6E7D8;
@@ -65,33 +66,34 @@
     color-scheme: dark;
   }
 
-  /* Light Theme */
+  /* Light Theme (Warm Alabaster & Forest Emerald) */
   html.light {
-    --bg-primary: #F2F5F3;
-    --bg-secondary: #E7ECE9;
-    --surface-primary: #FFFFFF;
-    --surface-elevated: #F8FAF8;
+    --bg-primary: #FAF8F5;       /* Warm Alabaster/Cream background */
+    --bg-secondary: #F3EFE9;     /* Soft warm sand */
+    --bg-alt: #F3EFE9;           /* Soft warm sand */
+    --surface-primary: #FFFFFF;  /* Pure white for clean card contrast */
+    --surface-elevated: #F5F2EB; /* Warm elevated surface */
 
-    --text-primary: #0A1C14;
-    --text-secondary: #243D32;
-    --text-muted: #4C665A;
+    --text-primary: #1E1B18;     /* Rich warm stone/charcoal black */
+    --text-secondary: #4A433E;   /* Warm dark grey-brown */
+    --text-muted: #7C7267;       /* Warm medium taupe */
 
-    --border-primary: #C3D5CC;
-    --border-subtle: #DDEAE3;
+    --border-primary: #E2DDD5;   /* Warm light grey border */
+    --border-subtle: #F0EBE3;    /* Very soft warm divider line */
 
-    --accent-emerald: #0D6E4D;
-    --accent-green: #10523C;
-    --accent-highlight: #158A5D;
-    --accent-primary: #0D6E4D;
+    --accent-emerald: #10664B;   /* Warm forest emerald */
+    --accent-green: #0D503A;     /* Warm deep green */
+    --accent-highlight: #198060; /* Warm vibrant emerald accent */
+    --accent-primary: #10664B;   /* Primary accent */
 
-    --accent: #0D6E4D;
-    --accent-hover: #158A5D;
-    --accent-text: #0D6E4D;
-    --accent-subtle-bg: rgba(13, 110, 77, 0.08);
+    --accent: #10664B;
+    --accent-hover: #198060;
+    --accent-text: #10664B;
+    --accent-subtle-bg: rgba(16, 102, 75, 0.07);
 
-    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.05);
-    --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.08);
+    --shadow-sm: 0 1px 2px rgba(92, 83, 76, 0.04);
+    --shadow-md: 0 4px 12px rgba(92, 83, 76, 0.05);
+    --shadow-lg: 0 12px 32px rgba(92, 83, 76, 0.08);
 
     color-scheme: light;
   }
@@ -134,57 +136,7 @@
     transition: background 0.4s ease, color 0.2s ease;
   }
 
-  /* ── Living Aurora Background ── */
-  html.dark body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    background:
-      radial-gradient(ellipse 120% 80% at 10% 90%, rgba(11, 93, 72, 0.25), transparent 50%),
-      radial-gradient(ellipse 100% 60% at 90% 10%, rgba(19, 138, 100, 0.18), transparent 50%),
-      radial-gradient(ellipse 80% 50% at 50% 50%, rgba(31, 169, 113, 0.08), transparent 60%),
-      radial-gradient(ellipse 60% 40% at 20% 20%, rgba(59, 217, 150, 0.06), transparent 50%);
-    animation: auroraFlow 20s ease-in-out infinite alternate;
-    pointer-events: none;
-  }
-  html.dark body::after {
-    content: '';
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    background:
-      radial-gradient(ellipse 90% 70% at 80% 80%, rgba(11, 93, 72, 0.15), transparent 50%),
-      radial-gradient(ellipse 70% 50% at 30% 60%, rgba(59, 217, 150, 0.05), transparent 50%);
-    animation: auroraFlow2 25s ease-in-out infinite alternate-reverse;
-    pointer-events: none;
-  }
 
-  /* Light Theme Living Aurora Background */
-  html.light body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    background:
-      radial-gradient(ellipse 120% 80% at 10% 90%, rgba(31, 169, 113, 0.08), transparent 50%),
-      radial-gradient(ellipse 100% 60% at 90% 10%, rgba(19, 138, 100, 0.06), transparent 50%),
-      radial-gradient(ellipse 80% 50% at 50% 50%, rgba(31, 169, 113, 0.04), transparent 60%),
-      radial-gradient(ellipse 60% 40% at 20% 20%, rgba(59, 217, 150, 0.03), transparent 50%);
-    animation: auroraFlow 20s ease-in-out infinite alternate;
-    pointer-events: none;
-  }
-  html.light body::after {
-    content: '';
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    background:
-      radial-gradient(ellipse 90% 70% at 80% 80%, rgba(31, 169, 113, 0.06), transparent 50%),
-      radial-gradient(ellipse 70% 50% at 30% 60%, rgba(59, 217, 150, 0.02), transparent 50%);
-    animation: auroraFlow2 25s ease-in-out infinite alternate-reverse;
-    pointer-events: none;
-  }
 
   ::selection {
     background: rgba(31, 169, 113, 0.3);
@@ -209,6 +161,10 @@
     padding: 88px 0;
     position: relative;
   }
+  .section.bg-transparent,
+  .section-lg.bg-transparent {
+    background-color: transparent !important;
+  }
   .section-lg {
     padding: 110px 0;
   }
@@ -230,7 +186,7 @@
   }
   html.light .bg-gradient-subtle {
     background:
-      radial-gradient(ellipse 60% 40% at 50% 0%, rgba(11, 93, 72, 0.05), transparent 70%),
+      radial-gradient(ellipse 60% 40% at 50% 0%, rgba(16, 102, 75, 0.05), transparent 70%),
       var(--bg-primary);
   }
 
@@ -243,7 +199,7 @@
   }
   html.light .bg-gradient-subtle-fade {
     background:
-      radial-gradient(ellipse 60% 40% at 50% 0%, rgba(11, 93, 72, 0.05), transparent 70%),
+      radial-gradient(ellipse 60% 40% at 50% 0%, rgba(16, 102, 75, 0.05), transparent 70%),
       linear-gradient(to bottom, var(--bg-primary) 50%, transparent 100%);
   }
 
@@ -428,7 +384,7 @@ html.light .glass-panel {
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(11, 93, 72, 0.08);
+  border: 1px solid rgba(16, 102, 75, 0.06);
 }
 
 /* ── Page-Specific Accent Overrides (Emerald Spectrum) ── */
@@ -556,9 +512,9 @@ html.light .glass-panel {
 }
 html.light .gradient-mesh::before {
   background:
-    radial-gradient(ellipse 80% 50% at 20% 40%, rgba(11, 93, 72, 0.10), transparent 60%),
-    radial-gradient(ellipse 60% 60% at 80% 20%, rgba(19, 138, 100, 0.07), transparent 55%),
-    radial-gradient(ellipse 50% 40% at 50% 80%, rgba(31, 169, 113, 0.05), transparent 50%);
+    radial-gradient(ellipse 80% 50% at 20% 40%, rgba(16, 102, 75, 0.08), transparent 60%),
+    radial-gradient(ellipse 60% 60% at 80% 20%, rgba(25, 128, 96, 0.06), transparent 55%),
+    radial-gradient(ellipse 50% 40% at 50% 80%, rgba(16, 102, 75, 0.04), transparent 50%);
 }
 
 /* ── Particle Dots ── */
@@ -653,11 +609,11 @@ html.light .gradient-mesh::before {
 }
 html.light .glass-card {
   background: rgba(255, 255, 255, 0.8);
-  border-color: rgba(11, 93, 72, 0.08);
+  border-color: rgba(16, 102, 75, 0.06);
 }
 html.light .glass-card:hover {
-  border-color: rgba(11, 93, 72, 0.2);
-  box-shadow: 0 0 20px rgba(11, 93, 72, 0.06);
+  border-color: rgba(16, 102, 75, 0.18);
+  box-shadow: 0 0 20px rgba(16, 102, 75, 0.04);
 }
 
 /* ── Pill Chips ── */
@@ -956,7 +912,7 @@ html.light .modal-content {
 }
 html.light .testimonial-card {
   background: rgba(255, 255, 255, 0.7);
-  border-color: rgba(11, 93, 72, 0.06);
+  border-color: rgba(16, 102, 75, 0.05);
 }
 
 /* ========================================
@@ -1272,4 +1228,40 @@ html.light .testimonial-card {
 .cursor-hover-active {
   animation: terminal-blink 1s ease-in-out infinite;
 }
+
+/* ── Translation Bar Support ── */
+html[class*="translated"], 
+body[class*="translated"], 
+.translated-ltr, 
+.translated-rtl {
+  /* Offset the fixed header when Google/browser translate toolbar is active */
+  --header-offset: 40px;
+}
+
+header {
+  top: var(--header-offset, 0px) !important;
+  transition: top 0.3s ease, background 0.4s ease;
+}
+
+/* ── Dark Mode Pure Black Background Overrides ── */
+html.dark .bg-gradient-subtle,
+html.dark .bg-gradient-subtle.page-about,
+html.dark .bg-gradient-subtle.page-services,
+html.dark .bg-gradient-subtle.page-solutions,
+html.dark .bg-gradient-subtle.page-careers,
+html.dark .bg-gradient-subtle.page-contact,
+html.dark .bg-gradient-subtle.page-clients,
+html.dark .bg-gradient-subtle.page-playground,
+html.dark .bg-gradient-subtle.page-resources {
+  background: var(--bg-primary) !important;
+}
+
+html.dark .bg-gradient-subtle-fade {
+  background: linear-gradient(to bottom, var(--bg-primary) 50%, transparent 100%) !important;
+}
+
+html.dark body {
+  background-color: #000000 !important;
+}
+
 

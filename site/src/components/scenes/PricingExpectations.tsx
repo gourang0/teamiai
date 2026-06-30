@@ -84,7 +84,7 @@ export function PricingExpectations() {
                       <plan.icon size={16} />
                     </div>
                     {plan.highlight && (
-                      <span className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[8px] font-mono font-bold tracking-widest px-2.5 py-1 uppercase rounded select-none">
+                      <span className="bg-emerald-500/10 dark:text-emerald-400 text-[var(--accent-text)] border dark:border-emerald-500/20 border-[var(--accent)]/20 text-[8px] font-mono font-bold tracking-widest px-2.5 py-1 uppercase rounded select-none">
                         RECOMMENDED
                       </span>
                     )}

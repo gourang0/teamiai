@@ -164,60 +164,7 @@ export function FallingOrbs() {
 
       ctx.clearRect(0, 0, width, height);
 
-      // Render Dynamic Flow Background Gradient
-      if (theme === "dark") {
-        const pulse = Math.sin(Date.now() * 0.0005) * 0.05;
-        const grad = ctx.createRadialGradient(
-          width * 0.5, height * 0.5, 0,
-          width * 0.5, height * 0.5, Math.max(width, height) * 0.8
-        );
-        if (vibe === "about") {
-          grad.addColorStop(0, "rgba(20, 10, 35, 0.4)");
-          grad.addColorStop(0.5, "rgba(7, 19, 17, 0.2)");
-          grad.addColorStop(1, "rgba(7, 19, 17, 0.8)");
-        } else if (vibe === "careers") {
-          grad.addColorStop(0, "rgba(28, 24, 10, 0.3)");
-          grad.addColorStop(0.5, "rgba(7, 19, 17, 0.2)");
-          grad.addColorStop(1, "rgba(7, 19, 17, 0.8)");
-        } else if (vibe === "contact") {
-          grad.addColorStop(0, "rgba(8, 25, 28, 0.35)");
-          grad.addColorStop(0.5, "rgba(7, 19, 17, 0.2)");
-          grad.addColorStop(1, "rgba(7, 19, 17, 0.8)");
-        } else if (vibe === "tech") {
-          grad.addColorStop(0, "rgba(10, 20, 35, 0.3)");
-          grad.addColorStop(0.5, "rgba(7, 19, 17, 0.2)");
-          grad.addColorStop(1, "rgba(7, 19, 17, 0.8)");
-        } else {
-          grad.addColorStop(0, `rgba(11, 93, 72, ${0.15 + pulse})`);
-          grad.addColorStop(0.5, "rgba(7, 19, 17, 0.1)");
-          grad.addColorStop(1, "rgba(7, 19, 17, 0.9)");
-        }
-        ctx.fillStyle = grad;
-        ctx.fillRect(0, 0, width, height);
-      } else {
-        const grad = ctx.createRadialGradient(
-          width * 0.5, height * 0.5, 0,
-          width * 0.5, height * 0.5, Math.max(width, height) * 0.8
-        );
-        if (vibe === "about") {
-          grad.addColorStop(0, "rgba(240, 230, 250, 0.4)");
-          grad.addColorStop(1, "rgba(240, 253, 247, 0.8)");
-        } else if (vibe === "careers") {
-          grad.addColorStop(0, "rgba(255, 250, 230, 0.4)");
-          grad.addColorStop(1, "rgba(240, 253, 247, 0.8)");
-        } else if (vibe === "contact") {
-          grad.addColorStop(0, "rgba(230, 248, 250, 0.4)");
-          grad.addColorStop(1, "rgba(240, 253, 247, 0.8)");
-        } else if (vibe === "tech") {
-          grad.addColorStop(0, "rgba(230, 240, 255, 0.4)");
-          grad.addColorStop(1, "rgba(240, 253, 247, 0.8)");
-        } else {
-          grad.addColorStop(0, "rgba(220, 247, 235, 0.4)");
-          grad.addColorStop(1, "rgba(240, 253, 247, 0.8)");
-        }
-        ctx.fillStyle = grad;
-        ctx.fillRect(0, 0, width, height);
-      }
+      // Background gradient rendering removed to keep the site background completely black.
 
       // Render network lines if in tech vibe
       if (vibe === "tech") {

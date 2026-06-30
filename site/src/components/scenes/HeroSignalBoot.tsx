@@ -11,6 +11,9 @@ import { useTheme } from "@/components/ThemeProvider";
 export function HeroSignalBoot() {
   const { theme } = useTheme();
   const waveTheme = theme === "dark" ? "matt" : "lightEmerald";
+  const lineOpacity = theme === "dark" ? 0.14 : 0.04;
+  const pointSize = theme === "dark" ? 0.2 : 0.08;
+  const targetY = theme === "dark" ? 6.1 : 4.0; // Lower targetY tilts camera up, pushing wave down
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -34,9 +37,6 @@ export function HeroSignalBoot() {
 
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center pt-28 pb-16 bg-transparent overflow-hidden">
-      {/* Background overlay that fades at the bottom to transition to the grid */}
-      <div className="absolute inset-0 bg-gradient-subtle-fade pointer-events-none" />
-
       {/* 3D Wave Background with custom design parameters */}
       <HeroWaveBackground 
         className="absolute inset-0 wave-mask-bottom"
@@ -46,14 +46,14 @@ export function HeroSignalBoot() {
         disableWave={false}
         flowSpeed={0.30}
         amp={0.50}
-        pointSize={0.2}
-        lineOpacity={0.14}
+        pointSize={pointSize}
+        lineOpacity={lineOpacity}
         camX={10.8}
         camY={16.8}
         camZ={40.0}
         fov={40}
         targetX={10.0}
-        targetY={6.1}
+        targetY={targetY}
         scale={1.70}
         orbitAmount={0.00}
         orbitSpeed={0.00}
