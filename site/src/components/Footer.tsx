@@ -7,7 +7,6 @@ import { useTheme } from "./ThemeProvider";
 const footerLinks = {
   Company: [
     { label: "About", href: "/company/about" },
-    { label: "Clients", href: "/company/clients" },
     { label: "Careers", href: "/company/careers" },
     { label: "Contact", href: "/contact" },
   ],

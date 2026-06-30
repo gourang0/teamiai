@@ -47,7 +47,6 @@ const navLinks = [
   { label: "Blog", href: "/resources/blog", icon: BookOpen },
   { label: "Careers", href: "/company/careers", icon: Briefcase },
   { label: "Research", href: "/resources/research", icon: FlaskConical },
-  { label: "Clients", href: "/company/clients", icon: Users },
 ];
 
 
