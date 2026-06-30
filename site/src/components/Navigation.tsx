@@ -1,124 +1,63 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
-  X,
   ChevronRight,
   Sun,
   Moon,
   Building2,
   Users,
   Briefcase,
-  UserPlus,
   Cpu,
   Layers,
   BookOpen,
   Award,
   FlaskConical,
-  Activity,
-  Terminal,
-  Shield,
   ArrowRight,
-  Sparkles,
+  Phone,
 } from "lucide-react";
 import { useTheme } from "./ThemeProvider";
 import { Magnetic } from "./Magnetic";
 
-interface DropdownItem {
-  label: string;
-  href: string;
-  icon: React.ComponentType<{ size?: number; className?: string }>;
-  description: string;
-}
+// Services dropdown data
+const servicesItems = [
+  {
+    label: "AI Services",
+    href: "/services/ai-services",
+    icon: Cpu,
+    description: "Agents, automation & intelligence",
+  },
+  {
+    label: "AI Solutions",
+    href: "/services/ai-solutions",
+    icon: Layers,
+    description: "Industry-specific implementations",
+  },
+];
 
-interface NavCategory {
-  title: string;
-  items: DropdownItem[];
-}
+// Navigation link groups — kept minimal
+const navLinks = [
+  { label: "Services", href: "/services", icon: Cpu },
+  { label: "Solutions", href: "/services/ai-solutions", icon: Layers },
+  { label: "Case Studies", href: "/resources/case-studies", icon: Award },
+  { label: "About", href: "/company/about", icon: Building2 },
+  { label: "Blog", href: "/resources/blog", icon: BookOpen },
+  { label: "Careers", href: "/company/careers", icon: Briefcase },
+  { label: "Research", href: "/resources/research", icon: FlaskConical },
+  { label: "Clients", href: "/company/clients", icon: Users },
+];
 
-const companyCategory: NavCategory = {
-  title: "Company",
-  items: [
-    {
-      label: "About",
-      href: "/company/about",
-      icon: Building2,
-      description: "Mission, vision & innovation story",
-    },
-    {
-      label: "Clients",
-      href: "/company/clients",
-      icon: Users,
-      description: "Trust portfolio & testimonials",
-    },
-    {
-      label: "Careers",
-      href: "/company/careers",
-      icon: Briefcase,
-      description: "Build the future with us",
-    },
-  ],
-};
 
-const servicesCategory: NavCategory = {
-  title: "Services",
-  items: [
-    {
-      label: "AI Services",
-      href: "/services/ai-services",
-      icon: Cpu,
-      description: "Agents, automation & intelligence",
-    },
-    {
-      label: "AI Solutions",
-      href: "/services/ai-solutions",
-      icon: Layers,
-      description: "Industry-specific implementations",
-    },
-  ],
-};
-
-const resourcesCategory: NavCategory = {
-  title: "Resources",
-  items: [
-    {
-      label: "Blog",
-      href: "/resources/blog",
-      icon: BookOpen,
-      description: "Insights, articles & deep dives",
-    },
-    {
-      label: "Case Studies",
-      href: "/resources/case-studies",
-      icon: Award,
-      description: "Real-world project showcases",
-    },
-    {
-      label: "Research",
-      href: "/resources/research",
-      icon: FlaskConical,
-      description: "Innovation & AI experiments",
-    },
-  ],
-};
 
 export function Navigation() {
   const pathname = usePathname();
   const { theme, toggleTheme } = useTheme();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [activeTelemetry, setActiveTelemetry] = useState(0);
-
-  // Mock telemetry loop
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveTelemetry((prev) => (prev + 1) % 4);
-    }, 4000);
-    return () => clearInterval(interval);
-  }, []);
+  const [isServicesOpen, setIsServicesOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 20);
@@ -126,9 +65,9 @@ export function Navigation() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Close menu when route changes
   useEffect(() => {
     setIsMenuOpen(false);
+    setIsServicesOpen(false);
   }, [pathname]);
 
   // Lock body scroll when menu is open
@@ -143,12 +82,27 @@ export function Navigation() {
     };
   }, [isMenuOpen]);
 
-  const telemetryData = [
-    { label: "Router Node", value: "active-edge-us" },
-    { label: "Token Rate", value: "2.4k t/sec" },
-    { label: "Core Latency", value: "14.2ms" },
-    { label: "System Status", value: "operational" },
-  ];
+  // Stagger animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.06,
+        delayChildren: 0.15,
+      },
+    },
+    exit: {
+      opacity: 0,
+      transition: { staggerChildren: 0.03, staggerDirection: -1 },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { ease: "easeOut" as const, duration: 0.4 } },
+    exit: { opacity: 0, y: -10 },
+  };
 
   return (
     <>
@@ -162,7 +116,7 @@ export function Navigation() {
         <div
           className="w-full max-w-[1100px] mx-6 py-4 flex items-center justify-between pointer-events-auto"
         >
-          {/* Logo & Status Combo */}
+          {/* Logo */}
           <div className="flex items-center">
             <Link
               href="/"
@@ -177,7 +131,60 @@ export function Navigation() {
 
           {/* Right Side Actions */}
           <div className="flex items-center gap-3">
-            {/* Quick Link - Playground (visible on lg screens) */}
+            {/* Quick Link - Services with Dropdown */}
+            <div
+              className="relative hidden md:inline-block"
+              onMouseEnter={() => setIsServicesOpen(true)}
+              onMouseLeave={() => setIsServicesOpen(false)}
+            >
+              <button
+                onClick={() => setIsServicesOpen(!isServicesOpen)}
+                className={`px-4 py-1.5 text-xs font-mono font-medium rounded-full border transition-all duration-300 flex items-center gap-1 cursor-pointer bg-transparent ${
+                  pathname.startsWith("/services") || isServicesOpen
+                    ? "bg-[var(--accent-subtle-bg)] border-[var(--accent)] text-[var(--accent-text)]"
+                    : "border-[var(--border-subtle)] text-[var(--text-secondary)] hover:border-[var(--accent)] hover:text-[var(--text-primary)]"
+                }`}
+              >
+                <span>// SERVICES</span>
+                <ChevronRight size={10} className={`transition-transform duration-300 ${isServicesOpen ? "rotate-90" : ""}`} />
+              </button>
+
+              {/* Services Dropdown */}
+              <AnimatePresence>
+                {isServicesOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute top-full left-0 mt-2 w-64 bg-[var(--bg-primary)]/95 backdrop-blur-md border border-[var(--border-primary)] rounded-2xl p-3 shadow-xl z-50 flex flex-col gap-1"
+                  >
+                    {servicesItems.map((sub) => (
+                      <Link
+                        key={sub.href}
+                        href={sub.href}
+                        onClick={() => setIsServicesOpen(false)}
+                        className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-[var(--surface-elevated)] transition-colors duration-200 group/srv"
+                      >
+                        <div className="p-2 bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-lg text-[var(--text-secondary)] group-hover/srv:text-[var(--accent-text)] group-hover/srv:border-[var(--accent)]/45 transition-colors">
+                          <sub.icon size={14} />
+                        </div>
+                        <div className="flex flex-col">
+                          <span className="text-xs font-bold text-[var(--text-primary)] group-hover/srv:text-[var(--accent-text)] transition-colors leading-tight">
+                            {sub.label}
+                          </span>
+                          <span className="text-[9px] text-[var(--text-muted)] mt-1 leading-normal">
+                            {sub.description}
+                          </span>
+                        </div>
+                      </Link>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
+            {/* Quick Link - Playground */}
             <Link
               href="/playground"
               className={`hidden md:inline-block px-4 py-1.5 text-xs font-mono font-medium rounded-full border transition-all duration-300 ${
@@ -200,264 +207,106 @@ export function Navigation() {
               </button>
             </Magnetic>
 
-            {/* High-Tech Menu Toggle Button */}
+            {/* ★ Primary CTA — Book a Call */}
             <Magnetic range={40} strength={0.2}>
-              <button
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className={`relative px-4 py-2 rounded-full border transition-all duration-300 flex items-center gap-2.5 cursor-pointer text-xs font-mono font-bold select-none ${
-                  isMenuOpen
-                    ? "bg-[var(--text-primary)] text-[var(--bg-primary)] border-transparent"
-                    : "bg-[var(--bg-secondary)] border-[var(--border-primary)] hover:border-[var(--accent)] text-[var(--text-primary)] shadow-sm"
-                }`}
-                aria-label="Toggle Navigation Menu"
+              <Link
+                href="/contact"
+                className="hidden sm:flex items-center gap-2 px-5 py-2 rounded-full bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-white text-xs font-bold font-mono transition-all duration-300 shadow-lg shadow-[var(--accent)]/25 hover:shadow-[var(--accent)]/40 hover:scale-[1.02] active:scale-[0.98]"
               >
-                <span>{isMenuOpen ? "CLOSE_MENU" : "SYS_MENU"}</span>
-                <div className="flex flex-col gap-1 w-4 justify-center items-end">
-                  <motion.span
-                    animate={isMenuOpen ? { rotate: 45, y: 4, width: "16px" } : { rotate: 0, y: 0, width: "12px" }}
-                    transition={{ duration: 0.2 }}
-                    className={`h-[1.5px] rounded-full ${
-                      isMenuOpen ? "bg-[var(--bg-primary)]" : "bg-[var(--text-primary)]"
-                    }`}
-                  />
-                  <motion.span
-                    animate={isMenuOpen ? { opacity: 0, x: -10 } : { opacity: 1, x: 0, width: "16px" }}
-                    transition={{ duration: 0.15 }}
-                    className={`h-[1.5px] rounded-full ${
-                      isMenuOpen ? "bg-[var(--bg-primary)]" : "bg-[var(--text-primary)]"
-                    }`}
-                  />
-                  <motion.span
-                    animate={isMenuOpen ? { rotate: -45, y: -4, width: "16px" } : { rotate: 0, y: 0, width: "8px" }}
-                    transition={{ duration: 0.2 }}
-                    className={`h-[1.5px] rounded-full ${
-                      isMenuOpen ? "bg-[var(--bg-primary)]" : "bg-[var(--text-primary)]"
-                    }`}
-                  />
-                </div>
-              </button>
+                <Phone size={12} />
+                <span>Book a Call</span>
+              </Link>
             </Magnetic>
+
+            {/* EXPLORE_MENU Dropdown */}
+            <div
+              className="relative hidden md:inline-block"
+              onMouseEnter={() => setIsMenuOpen(true)}
+              onMouseLeave={() => setIsMenuOpen(false)}
+            >
+              <Magnetic range={40} strength={0.2}>
+                <button
+                  onClick={() => setIsMenuOpen(!isMenuOpen)}
+                  className={`relative px-4 py-2 rounded-full border transition-all duration-300 flex items-center gap-2.5 cursor-pointer text-xs font-mono font-bold select-none ${
+                    isMenuOpen
+                      ? "bg-[var(--text-primary)] text-[var(--bg-primary)] border-transparent"
+                      : "bg-[var(--bg-secondary)] border-[var(--border-primary)] hover:border-[var(--accent)] text-[var(--text-primary)] shadow-sm"
+                  }`}
+                  aria-label="Toggle Navigation Menu"
+                >
+                  <span>{isMenuOpen ? "CLOSE_MENU" : "EXPLORE_MENU"}</span>
+                  <div className="flex flex-col gap-1 w-4 justify-center items-end">
+                    <motion.span
+                      animate={isMenuOpen ? { rotate: 45, y: 4, width: "16px" } : { rotate: 0, y: 0, width: "12px" }}
+                      transition={{ duration: 0.2 }}
+                      className={`h-[1.5px] rounded-full ${
+                        isMenuOpen ? "bg-[var(--bg-primary)]" : "bg-[var(--text-primary)]"
+                      }`}
+                    />
+                    <motion.span
+                      animate={isMenuOpen ? { opacity: 0, x: -10 } : { opacity: 1, x: 0, width: "16px" }}
+                      transition={{ duration: 0.15 }}
+                      className={`h-[1.5px] rounded-full ${
+                        isMenuOpen ? "bg-[var(--bg-primary)]" : "bg-[var(--text-primary)]"
+                      }`}
+                    />
+                    <motion.span
+                      animate={isMenuOpen ? { rotate: -45, y: -4, width: "16px" } : { rotate: 0, y: 0, width: "8px" }}
+                      transition={{ duration: 0.2 }}
+                      className={`h-[1.5px] rounded-full ${
+                        isMenuOpen ? "bg-[var(--bg-primary)]" : "bg-[var(--text-primary)]"
+                      }`}
+                    />
+                  </div>
+                </button>
+              </Magnetic>
+
+              {/* Explore Dropdown Panel */}
+              <AnimatePresence>
+                {isMenuOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute top-full right-0 mt-2 w-[300px] bg-[var(--bg-primary)]/95 backdrop-blur-md border border-[var(--border-primary)] rounded-2xl p-3 shadow-xl z-50 flex flex-col gap-3"
+                  >
+
+                    <div className="flex flex-col gap-1">
+                      {[
+                        { href: "/company/about", icon: Building2, label: "About Us" },
+
+                        { href: "/resources/case-studies", icon: Award, label: "Case Studies" },
+                        { href: "/resources/blog", icon: BookOpen, label: "Blog & News" },
+                        { href: "/company/careers", icon: Briefcase, label: "Careers" },
+                      ].map((item) => (
+                        <Link
+                          key={item.href}
+                          href={item.href}
+                          onClick={() => setIsMenuOpen(false)}
+                          className="flex items-center justify-between p-2 rounded-xl bg-transparent hover:bg-[var(--surface-elevated)] transition-all duration-200 group/link"
+                        >
+                          <div className="flex items-center gap-3">
+                            <div className="p-1.5 bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-lg text-[var(--text-secondary)] group-hover/link:text-[var(--accent-text)] group-hover/link:border-[var(--accent)]/45 transition-colors">
+                              <item.icon size={13} />
+                            </div>
+                            <span className="text-xs font-medium text-[var(--text-secondary)] group-hover/link:text-[var(--text-primary)] transition-colors">
+                              {item.label}
+                            </span>
+                          </div>
+                          <ChevronRight size={12} className="text-[var(--text-muted)] group-hover/link:translate-x-1 transition-transform opacity-0 group-hover/link:opacity-100" />
+                        </Link>
+                      ))}
+                    </div>
+
+
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
         </div>
       </header>
-
-      {/* Fullscreen Bento Grid Drawer */}
-      <AnimatePresence>
-        {isMenuOpen && (
-          <>
-            {/* Backdrop Overlay */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 0.4 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.4 }}
-              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40"
-              onClick={() => setIsMenuOpen(false)}
-            />
-
-            {/* Bento Grid Panel */}
-            <motion.div
-              initial={{ x: "100%", opacity: 0.95 }}
-              animate={{ x: 0, opacity: 1 }}
-              exit={{ x: "100%", opacity: 0.95 }}
-              transition={{ type: "spring", damping: 30, stiffness: 220 }}
-              className="fixed right-0 top-0 bottom-0 w-full sm:w-[540px] md:w-[680px] lg:w-[750px] bg-[var(--bg-primary)] border-l border-[var(--border-primary)] z-40 p-6 pt-28 md:p-10 md:pt-32 overflow-y-auto flex flex-col justify-between shadow-2xl"
-            >
-              {/* Bento Grid Container */}
-              <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
-                
-                {/* Bento Card 1: Main Platform Services (Spans 4 cols on desktop) */}
-                <div className="md:col-span-4 rounded-2xl bg-[var(--bg-secondary)]/50 border border-[var(--border-subtle)] p-6 relative overflow-hidden group hover:border-[var(--accent)]/45 transition-colors duration-300">
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--accent)]/5 rounded-full blur-3xl pointer-events-none" />
-                  <div className="text-[10px] font-mono text-[var(--accent-text)] tracking-wider uppercase mb-4 flex items-center gap-1.5">
-                    <Cpu size={11} />
-                    <span>01 // ENGINE CAPABILITIES</span>
-                  </div>
-                  <h3 className="text-lg font-bold text-[var(--text-primary)] mb-4 font-display">Services</h3>
-                  
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                    {servicesCategory.items.map((sub) => (
-                      <Link
-                        key={sub.href}
-                        href={sub.href}
-                        className="flex flex-col p-4 rounded-xl bg-[var(--surface-primary)] border border-[var(--border-subtle)] hover:border-[var(--accent)]/60 hover:bg-[var(--surface-elevated)] transition-all duration-300 group/item hover:-translate-y-0.5"
-                      >
-                        <div className="p-2.5 bg-[var(--bg-primary)] border border-[var(--border-subtle)] rounded-lg text-[var(--accent-text)] w-fit mb-3 transition-colors group-hover/item:border-[var(--accent)]/40">
-                          <sub.icon size={16} />
-                        </div>
-                        <span className="text-xs font-bold text-[var(--text-primary)] leading-tight group-hover/item:text-[var(--accent-text)] transition-colors">
-                          {sub.label}
-                        </span>
-                        <span className="text-[10px] text-[var(--text-muted)] mt-1.5 leading-relaxed">
-                          {sub.description}
-                        </span>
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Bento Card 2: Interactive Sandbox (Spans 2 cols on desktop) */}
-                <Link
-                  href="/playground"
-                  className="md:col-span-2 rounded-2xl bg-gradient-to-br from-[var(--bg-secondary)] to-[var(--accent-subtle-bg)]/30 border border-[var(--border-subtle)] hover:border-[var(--accent)]/60 p-6 relative flex flex-col justify-between overflow-hidden group/playground transition-colors duration-300 cursor-pointer"
-                >
-                  <div className="absolute -bottom-10 -right-10 w-24 h-24 bg-[var(--accent)]/10 rounded-full blur-2xl pointer-events-none group-hover/playground:scale-125 transition-transform duration-500" />
-                  <div>
-                    <div className="text-[10px] font-mono text-[var(--accent-text)] tracking-wider uppercase mb-3 flex items-center gap-1.5">
-                      <Terminal size={11} />
-                      <span>02 // SANDBOX</span>
-                    </div>
-                    <h3 className="text-base font-bold text-[var(--text-primary)] mb-2 font-display">Playground</h3>
-                    <p className="text-[11px] text-[var(--text-secondary)] leading-relaxed">
-                      Test live routing, models, workflows, and token metrics.
-                    </p>
-                  </div>
-                  
-                  <div className="mt-6 flex items-center justify-between text-xs font-mono font-bold text-[var(--accent-text)] group-hover/playground:translate-x-1.5 transition-transform duration-300">
-                    <span>LAUNCH_SANDBOX</span>
-                    <ArrowRight size={14} />
-                  </div>
-                </Link>
-
-                {/* Bento Card 3: Company Ecosystem (Spans 3 cols on desktop) */}
-                <div className="md:col-span-3 rounded-2xl bg-[var(--bg-secondary)]/50 border border-[var(--border-subtle)] p-6 relative overflow-hidden group hover:border-[var(--accent)]/45 transition-colors duration-300">
-                  <div className="text-[10px] font-mono text-[var(--text-secondary)] tracking-wider uppercase mb-4 flex items-center gap-1.5">
-                    <Building2 size={11} />
-                    <span>03 // ECOSYSTEM</span>
-                  </div>
-                  <h3 className="text-base font-bold text-[var(--text-primary)] mb-4 font-display">Company</h3>
-                  <div className="flex flex-col gap-2">
-                    {companyCategory.items.map((sub) => (
-                      <Link
-                        key={sub.href}
-                        href={sub.href}
-                        className="flex items-center justify-between p-3 rounded-xl bg-[var(--surface-primary)] border border-[var(--border-subtle)] hover:border-[var(--accent)]/40 hover:bg-[var(--surface-elevated)] transition-all duration-300 group/link"
-                      >
-                        <div className="flex items-center gap-3">
-                          <div className="p-1.5 bg-[var(--bg-secondary)] rounded-md text-[var(--text-secondary)] group-hover/link:text-[var(--accent-text)] transition-colors">
-                            <sub.icon size={13} />
-                          </div>
-                          <span className="text-xs font-medium text-[var(--text-secondary)] group-hover/link:text-[var(--text-primary)] transition-colors">
-                            {sub.label}
-                          </span>
-                        </div>
-                        <ChevronRight size={12} className="text-[var(--text-muted)] group-hover/link:translate-x-1 transition-transform" />
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Bento Card 4: Knowledge Hub (Spans 3 cols on desktop) */}
-                <div className="md:col-span-3 rounded-2xl bg-[var(--bg-secondary)]/50 border border-[var(--border-subtle)] p-6 relative overflow-hidden group hover:border-[var(--accent)]/45 transition-colors duration-300">
-                  <div className="text-[10px] font-mono text-[var(--text-secondary)] tracking-wider uppercase mb-4 flex items-center gap-1.5">
-                    <BookOpen size={11} />
-                    <span>04 // PUBLISHED DATA</span>
-                  </div>
-                  <h3 className="text-base font-bold text-[var(--text-primary)] mb-4 font-display">Resources</h3>
-                  <div className="flex flex-col gap-2">
-                    {resourcesCategory.items.map((sub) => (
-                      <Link
-                        key={sub.href}
-                        href={sub.href}
-                        className="flex items-center justify-between p-3 rounded-xl bg-[var(--surface-primary)] border border-[var(--border-subtle)] hover:border-[var(--accent)]/40 hover:bg-[var(--surface-elevated)] transition-all duration-300 group/link"
-                      >
-                        <div className="flex items-center gap-3">
-                          <div className="p-1.5 bg-[var(--bg-secondary)] rounded-md text-[var(--text-secondary)] group-hover/link:text-[var(--accent-text)] transition-colors">
-                            <sub.icon size={13} />
-                          </div>
-                          <span className="text-xs font-medium text-[var(--text-secondary)] group-hover/link:text-[var(--text-primary)] transition-colors">
-                            {sub.label}
-                          </span>
-                        </div>
-                        <ChevronRight size={12} className="text-[var(--text-muted)] group-hover/link:translate-x-1 transition-transform" />
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Bento Card 5: Live Telemetry Indicator (Spans 3 cols on desktop) */}
-                <div className="md:col-span-3 rounded-2xl bg-[var(--bg-secondary)]/30 border border-[var(--border-subtle)] p-5 relative overflow-hidden flex flex-col justify-between select-none">
-                  <div>
-                    <div className="text-[10px] font-mono text-[var(--text-muted)] tracking-wider uppercase mb-3 flex items-center gap-1.5">
-                      <Activity size={11} />
-                      <span>LIVE TELEMETRY MONITOR</span>
-                    </div>
-                    
-                    <div className="grid grid-cols-2 gap-2 my-2">
-                      {telemetryData.map((tel, idx) => (
-                        <div
-                          key={tel.label}
-                          className={`p-2.5 rounded-lg border font-mono transition-all duration-500 ${
-                            idx === activeTelemetry
-                              ? "bg-[var(--accent-subtle-bg)] border-[var(--accent)]/40 shadow-sm"
-                              : "bg-[var(--bg-primary)]/50 border-[var(--border-subtle)] opacity-70"
-                          }`}
-                        >
-                          <div className="text-[9px] text-[var(--text-muted)] uppercase">{tel.label}</div>
-                          <div className="text-[11px] font-bold text-[var(--text-primary)] mt-1 flex items-center gap-1.5">
-                            {idx === activeTelemetry && (
-                              <span className="h-1 w-1 bg-[var(--accent)] rounded-full animate-pulse" />
-                            )}
-                            {tel.value}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="text-[8px] font-mono text-[var(--text-muted)] mt-2 border-t border-[var(--border-subtle)] pt-2.5 flex items-center justify-between">
-                    <span>NODES ACTIVE: 14/14</span>
-                    <span>LOAD: OPTIMAL</span>
-                  </div>
-                </div>
-
-                {/* Bento Card 6: Workforce Intake Form (Spans 3 cols on desktop) */}
-                <Link
-                  href="/contact"
-                  className="md:col-span-3 rounded-2xl bg-[var(--text-primary)] border border-transparent hover:border-[var(--accent)] p-5 relative overflow-hidden flex flex-col justify-between group/intake transition-all duration-300 cursor-pointer"
-                >
-                  <div className="absolute top-0 right-0 w-24 h-24 bg-[var(--accent)]/15 rounded-full blur-2xl pointer-events-none group-hover/intake:scale-125 transition-transform duration-500" />
-                  
-                  <div>
-                    <div className="text-[9px] font-mono text-[var(--bg-primary)]/60 tracking-wider uppercase mb-3 flex items-center gap-1">
-                      <Shield size={11} />
-                      <span>SECURE PIPELINE // INTAKE</span>
-                    </div>
-                    <h3 className="text-sm font-extrabold text-[var(--bg-primary)] font-display leading-snug">
-                      Ready to Scale Your AI Agent Infrastructure?
-                    </h3>
-                  </div>
-
-                  <div className="mt-4 flex items-center justify-between bg-[var(--bg-primary)]/10 group-hover/intake:bg-[var(--bg-primary)]/20 px-3.5 py-2 rounded-xl transition-colors duration-300">
-                    <span className="text-[10px] font-mono font-bold text-[var(--bg-primary)]">
-                      INITIATE_INTAKE
-                    </span>
-                    <Sparkles size={12} className="text-[var(--accent-highlight)]" />
-                  </div>
-                </Link>
-
-              </div>
-
-              {/* Bottom Quick Links / Branding */}
-              <div className="mt-8 pt-6 border-t border-[var(--border-subtle)] flex flex-wrap items-center justify-between gap-4 font-mono text-[10px] text-[var(--text-muted)]">
-                <div className="flex gap-4">
-                  <Link href="/" className="hover:text-[var(--text-primary)] transition-colors">
-                    HOME
-                  </Link>
-                  <span>//</span>
-                  <Link href="/playground" className="hover:text-[var(--text-primary)] transition-colors">
-                    PLAYGROUND
-                  </Link>
-                  <span>//</span>
-                  <Link href="/contact" className="hover:text-[var(--text-primary)] transition-colors">
-                    CONTACT
-                  </Link>
-                </div>
-                <span>© {new Date().getFullYear()} TEAMIFY CORP.</span>
-              </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
     </>
   );
 }
