@@ -1178,6 +1178,7 @@ html.light .testimonial-card {
   content: '';
   position: absolute;
   inset: 0;
+  pointer-events: none;
   border-radius: inherit;
   border: 1px solid transparent;
   background: linear-gradient(135deg, var(--accent-purple), var(--accent-cyan)) border-box;

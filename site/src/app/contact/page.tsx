@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { supabase } from "@/lib/supabase";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Mail,
@@ -275,7 +276,7 @@ export default function ContactPage() {
     requirements: "",
   });
   const [selectedTech, setSelectedTech] = useState<string[]>([]);
-  const [files, setFiles] = useState<string[]>([]);
+  const [files, setFiles] = useState<File[]>([]);
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -331,9 +332,9 @@ export default function ContactPage() {
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
-      const newFiles = Array.from(e.target.files).map((f) => f.name);
+      const newFiles = Array.from(e.target.files);
       setFiles((prev) => [...prev, ...newFiles]);
-      newFiles.forEach((file) => addLog(`Staged file buffer: "${file}"`));
+      newFiles.forEach((file) => addLog(`Staged file buffer: "${file.name}"`));
     }
   };
 
@@ -341,74 +342,81 @@ export default function ContactPage() {
     e.preventDefault();
     setIsDragging(false);
     if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-      const newFiles = Array.from(e.dataTransfer.files).map((f) => f.name);
+      const newFiles = Array.from(e.dataTransfer.files);
       setFiles((prev) => [...prev, ...newFiles]);
-      newFiles.forEach((file) => addLog(`Staged file buffer via drag-drop: "${file}"`));
+      newFiles.forEach((file) => addLog(`Staged file buffer via drag-drop: "${file.name}"`));
     }
   };
 
   const removeFile = (name: string) => {
-    setFiles((prev) => prev.filter((f) => f !== name));
+    setFiles((prev) => prev.filter((f) => f.name !== name));
     addLog(`Purged file buffer: "${name}"`);
   };
 
-  // Submit form — sends data via mailto and shows success animation
+  // Submit form — sends data via supabase and shows success animation
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     addLog("Form submission initialized. Staging payload...");
     setSubmittingState("parsing");
 
-    // Build the mailto body from form data
-    const targetEmail = "connect@teamify.in";
-    let subject = "";
-    let body = "";
-
-    if (activeTab === "contact") {
-      subject = `Inquiry: ${inquiryData.inquiryType} — from ${inquiryData.name || "Unknown"}`;
-      body = [
-        `Name: ${inquiryData.name}`,
-        `Email: ${inquiryData.email}`,
-        `Company: ${inquiryData.company || "N/A"}`,
-        `Inquiry Type: ${inquiryData.inquiryType}`,
-        ``,
-        `Message:`,
-        inquiryData.message,
-      ].join("\n");
-    } else {
-      subject = `Project Request: ${requestData.projectType || "General"} — from ${requestData.fullName || "Unknown"}`;
-      body = [
-        `Name: ${requestData.fullName}`,
-        `Email: ${requestData.email}`,
-        `Company: ${requestData.company || "N/A"}`,
-        `Role: ${requestData.jobTitle || "N/A"}`,
-        `Project Type: ${requestData.projectType || "N/A"}`,
-        `Budget: ${requestData.budget || "N/A"}`,
-        `Timeline: ${requestData.timeline || "N/A"}`,
-        `Tech Stack: ${selectedTech.length > 0 ? selectedTech.join(", ") : "N/A"}`,
-        ``,
-        `Requirements:`,
-        requestData.requirements,
-      ].join("\n");
-    }
-
-    setTimeout(() => {
+    setTimeout(async () => {
       addLog("Payload parsed. Formulating secure connection handshake...");
       setSubmittingState("handshake");
 
-      // Open mailto link to actually send the email
-      const mailtoLink = `mailto:${targetEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-      window.location.href = mailtoLink;
+      try {
+        let uploadedFileUrls: string[] = [];
 
-      setTimeout(() => {
-        addLog("Connection accepted. Transmitting encrypted stream packet...");
-        setSubmittingState("transmitting");
+        if (activeTab === "request" && files.length > 0) {
+          addLog("Uploading secure attachments to storage bucket...");
+          for (const file of files) {
+            const fileExt = file.name.split('.').pop();
+            const fileName = `${Math.random().toString(36).substring(2, 15)}_${Date.now()}.${fileExt}`;
+            const { error: uploadError } = await supabase.storage
+              .from('project_attachments')
+              .upload(fileName, file);
+            
+            if (uploadError) {
+              console.error("Upload error:", uploadError);
+              addLog(`Failed to upload ${file.name}`);
+              continue;
+            }
+            
+            const { data } = supabase.storage.from('project_attachments').getPublicUrl(fileName);
+            uploadedFileUrls.push(data.publicUrl);
+            addLog(`Uploaded: ${file.name}`);
+          }
+        }
+
+        const response = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            formType: activeTab,
+            data: activeTab === "contact" ? inquiryData : requestData,
+            techStack: selectedTech,
+            files: uploadedFileUrls
+          })
+        });
+
+        if (!response.ok) {
+          throw new Error('API route returned error');
+        }
 
         setTimeout(() => {
-          addLog("Email client opened. Transaction logged successfully!");
-          setSubmittingState("success");
-        }, 1200);
-      }, 1000);
-    }, 800);
+          addLog("Connection accepted. Transmitting encrypted stream packet...");
+          setSubmittingState("transmitting");
+
+          setTimeout(() => {
+            addLog("Transaction logged successfully! Sequence complete.");
+            setSubmittingState("success");
+          }, 1200);
+        }, 800);
+      } catch (err) {
+        console.error("Submit Error:", err);
+        addLog("ERROR: Connection failed. Check gateway credentials.");
+        setSubmittingState("idle");
+      }
+    }, 600);
   };
 
   const resetForm = () => {
@@ -842,14 +850,14 @@ export default function ContactPage() {
                     {files.length > 0 && (
                       <div className="flex flex-col gap-2 mt-3 select-none">
                         {files.map((file) => (
-                          <div key={file} className="flex items-center justify-between px-3 py-1.5 bg-[var(--surface-primary)] border border-[var(--border-subtle)] rounded-lg">
+                          <div key={file.name} className="flex items-center justify-between px-3 py-1.5 bg-[var(--surface-primary)] border border-[var(--border-subtle)] rounded-lg">
                             <div className="flex items-center gap-2">
                               <FileText size={12} className="text-[var(--accent-text)]" />
-                              <span className="text-[10px] text-[var(--text-primary)]">{file}</span>
+                              <span className="text-[10px] text-[var(--text-primary)]">{file.name}</span>
                             </div>
                             <button
                               type="button"
-                              onClick={() => removeFile(file)}
+                              onClick={() => removeFile(file.name)}
                               className="text-[var(--text-muted)] hover:text-red-400 transition-colors"
                             >
                               <X size={12} />
@@ -881,7 +889,7 @@ export default function ContactPage() {
                   formType={activeTab}
                   data={activeTab === "contact" ? inquiryData : requestData}
                   techs={selectedTech}
-                  files={files}
+                  files={files.map((f) => f.name)}
                   logs={logs}
                   latency={latency}
                   subState={submittingState}

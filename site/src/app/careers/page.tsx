@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo, useCallback, useEffect, useRef } from "react";
+import { supabase } from "@/lib/supabase";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Search,
@@ -739,12 +740,30 @@ function DrawerApplicationForm({ role, onSubmit, onCancel }: { role: Role; onSub
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleStepSubmit = (e: React.FormEvent) => {
+  const handleStepSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (step < 2) {
       setStep(step + 1);
     } else {
-      onSubmit();
+      try {
+        const { error } = await supabase.from('job_applications').insert([
+          {
+            role_id: role.id,
+            role_title: role.title,
+            name: form.name,
+            email: form.email,
+            linkedin: form.linkedin || null,
+            portfolio: form.portfolio || null,
+            cover_letter: form.coverLetter,
+            resume_name: form.resumeName || null,
+          }
+        ]);
+        if (error) throw error;
+        onSubmit();
+      } catch (err) {
+        console.error("Error submitting application:", err);
+        alert("Failed to submit application. Please try again.");
+      }
     }
   };
 
